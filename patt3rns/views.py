@@ -54,11 +54,15 @@ def design(request):
     Simple response to iterate through templates in the designer's playground
     """
 
+    def massage_label(label):
+        label = label.replace("-", " ").replace("_", " ")
+        label = label.title()
+        return label
+
     def get_link(current_filename):
         current_filename, ext = os.path.splitext(current_filename)
-        label = current_filename.replace("-", " ").replace("_", " ")
-        label = label.title()
-        link = "<a href=\"%(filename)s/\" title=\"%(label)s\">%(label)s</a>" % dict(filename=current_filename, label=label)
+        label = massage_label(current_filename)
+        link = "<a href=\"{filename}/\" title=\"{label}\">{label}</a>".format(filename=current_filename, label=label)
         return link
 
     design_root_dirname = settings.DESIGNER_PLAYGROUND
@@ -72,7 +76,9 @@ def design(request):
             if not (filename.startswith(".") or filename.startswith("_")):
                 current_tree.append(mark_safe(get_link(filename)))
 
-        tree.append([mark_safe("<h1>%s</h1>" % os.path.basename(dir_path)), current_tree])
+        dir_label = massage_label(os.path.basename(dir_path))
+        tree.append([mark_safe("<h1>{}</h1>".format(dir_label)), current_tree])
 
-    logger.debug("%s indexed => %s", request.path, tree)
+        logger.debug("%s indexed => %s", request.path, tree)
+
     return render(request, os.path.join(settings.DESIGNER_PLAYGROUND, "_index.html"), dict(tree=tree))

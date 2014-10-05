@@ -10,8 +10,9 @@
 
     <title>Fixed Top Navbar Example for Bootstrap</title>
 
-    {% compressed_css "app" %}
-    {% block css %}{% endblock css %}
+    {% block css %}
+        {% compressed_css "app" %}
+    {% endblock css %}
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -60,7 +61,7 @@
     </div>
 {% endblock nav %}
 
-<div class="container">
+<div class="container {% block container-class-extra %}{% endblock container-class-extra %}" role="main">
     {% block messages %}
         <div>
             {% include "design/_messages.html" %}
@@ -82,17 +83,18 @@
     {% endblock content %}
 </div>
 
-{% compressed_js "app" %}
-{% block js %}{% endblock js %}
-<!-- Asynchronous Google Analytics snippet. Change UA-XXXXX-X to be your site's ID.
-     mathiasbynens.be/notes/async-analytics-snippet -->
-<script>
-    var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']];
-    (function (d, t) {
-        var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
-        g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js';
-        s.parentNode.insertBefore(g, s)
-    }(document, 'script'));
-</script>
+{% block js %}
+    {% compressed_js "app" %}
+    <!-- Asynchronous Google Analytics snippet. Change UA-XXXXX-X to be your site's ID.
+         mathiasbynens.be/notes/async-analytics-snippet -->
+    <script>
+        var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']];
+        (function (d, t) {
+            var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+            g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g, s)
+        }(document, 'script'));
+    </script>
+{% endblock js %}
 </body>
 </html>
