@@ -5,9 +5,13 @@ import sys
 from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from django.views.generic import RedirectView
+from django.core.urlresolvers import reverse_lazy
+from django.views.generic import RedirectView, CreateView, UpdateView, DeleteView, ListView, DetailView
+from patt3rns.models import Habit
 
 from patt3rns.sitemap import ProjectSitemap
+from patt3rns.utils import URL_PATTERNS
+from patt3rns.views import DashboardView
 from portal.views import PortalView
 
 
@@ -46,6 +50,14 @@ urlpatterns = patterns(
 
     # Upload Handler
     # url(r"^(?P<app>\w+)/(?P<model>\w+(-\w+)*)/(?P<pk>\d+)/(?P<field>\w+)/$", "patt3rns.views.upload_handler", name="upload-handler"),
+
+    url(r"dashboard", DashboardView.as_view(), name="dashboard"),
+    url(r"^habits/$", ListView.as_view(model=Habit), name="habit-list"),
+    url(r"^habit/%(pk)s/$" % URL_PATTERNS, DetailView.as_view(model=Habit), name="habit-detail"),
+    url(r"^habit/create/$", CreateView.as_view(model=Habit), name="habit-create"),
+    url(r"^habit/update/%(pk)s/$" % URL_PATTERNS, UpdateView.as_view(model=Habit), name="habit-update"),
+    url(r"^habit/delete/%(pk)s/$" % URL_PATTERNS, DeleteView.as_view(model=Habit, success_url=reverse_lazy("habit-list")), name="habit-delete"),
+
 
     (r"^sitemap\.xml$", "django.contrib.sitemaps.views.sitemap", {"sitemaps": sitemaps}),
 

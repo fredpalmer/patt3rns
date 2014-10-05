@@ -31,7 +31,6 @@ PROJECT_ROOT_APP_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), o
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
-THUMBNAIL_DEBUG = DEBUG
 
 EMAIL_HOST = "localhost"
 EMAIL_PORT = 1025
@@ -43,6 +42,7 @@ DEFAULT_FROM_EMAIL = EMAIL_ADDRESSES["no-reply"]
 
 LOGIN_URL = reverse_lazy("account_login")
 LOGOUT_URL = reverse_lazy("logout")
+LOGIN_REDIRECT_URL = reverse_lazy("dashboard")
 
 # DATE_FORMAT
 DATETIME_FORMAT = "Y-m-d H:i:s O"
@@ -228,7 +228,6 @@ AWS_HEADERS = {
 INTERNAL_IPS = ("127.0.0.1",)
 
 TEMPLATE_LOADERS = (
-    #"django_mobile.loader.Loader",
     "django.template.loaders.filesystem.Loader",
     "django.template.loaders.app_directories.Loader",
 )
@@ -305,9 +304,6 @@ INSTALLED_APPS = (
     "pipeline",
 )
 
-ENDLESS_PAGINATION_PER_PAGE = 5
-DIALOGOS_COMMENT_REQUIRES_LOGIN = True
-
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin
     "django.contrib.auth.backends.ModelBackend",
@@ -335,7 +331,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 # Specifies the login method to use -- whether the user logs in by entering
 # his username, e-mail address, or either one of both. Possible values
 # are "username" | "email" | "username_email"
-ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 
 # A string pointing to a custom form class (e.g. "myapp.forms.SignupForm")
 # that is used during signup to ask the user for additional input
@@ -471,7 +467,6 @@ TEST = False
 
 # GRAPPELLI_ADMIN_TITLE = "Site Admin"
 
-# SESSION_ENGINE = "django.contrib.sessions.backends.db"
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
 
@@ -495,6 +490,14 @@ PIPELINE_CSS = {
         ),
         "output_filename": os.path.join(APP_PIPELINE_CSS_DIR, "base.css"),
     },
+    "design": {
+        "source_filenames": (
+            "bootstrap/dist/css/bootstrap.min.css",
+            "bootstrap/dist/css/bootstrap-theme.min.css",
+            "css/design.css",
+        ),
+        "output_filename": os.path.join(APP_PIPELINE_CSS_DIR, "design.css"),
+        },
     "portal": {
         "source_filenames": (
             "bootstrap/dist/css/bootstrap.min.css",

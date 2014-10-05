@@ -24,7 +24,7 @@
     </style>
 {% endblock css %}
 
-{% block container-class-extra %}theme-showcase{% endblock container-class-extra %}
+{% block container-class %}{{ block.super }} theme-showcase{% endblock container-class %}
 
 {% block content %}
     <div class="jumbotron">

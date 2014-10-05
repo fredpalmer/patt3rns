@@ -1,0 +1,15 @@
+{% extends "design/base.html" %}
+{% block content %}
+    <h1>Habits</h1>
+    <ul>
+        {% for habit in object_list %}
+            <li>{{ habit.description }}</li>
+                <ul>
+                    <li><a class="btn btn-danger" href="{% url "habit-delete" pk=habit.pk %}">Remove</a></li>
+                    <li><a class="btn btn-primary" href="{% url "habit-update" pk=habit.pk %}">Update</a></li>
+                </ul>
+                {% empty %}
+            <li>No habits yet. <a class="btn btn-primary" href="{% url "habit-create" %}">Create</a></li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

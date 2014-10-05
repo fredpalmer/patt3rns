@@ -2,13 +2,16 @@ import logging
 import os
 
 from django.conf import settings
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import user_passes_test, login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.template import TemplateDoesNotExist
 from django.template.loader import select_template
+from django.utils.decorators import method_decorator
 from django.utils.safestring import mark_safe
+from django.views.generic import TemplateView, ListView
+from patt3rns.models import Habit
 
 from patt3rns.utils import sort_nicely
 
@@ -82,3 +85,11 @@ def design(request):
         logger.debug("%s indexed => %s", request.path, tree)
 
     return render(request, os.path.join(settings.DESIGNER_PLAYGROUND, "_index.html"), dict(tree=tree))
+
+
+class DashboardView(TemplateView):
+    template_name = "patt3rns/dashboard.html"
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(DashboardView, self).dispatch(request, *args, **kwargs)
