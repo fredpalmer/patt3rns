@@ -1,0 +1,11 @@
+{% if messages %}
+    {% for message in messages %}
+        {% if not message_filter or message_filter in message.message %}
+            <div class="alert {% if message.tags %} alert-{{ message.tags }} {% if "error" in message.tags %}alert-danger{% endif %} {% endif %} full text-center fade in print-never">
+                {# close-href is used because href is used by bootstrap to closing other divs #}
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>{{ message }}</strong>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}

@@ -1,0 +1,12 @@
+{% extends "design/base.html" %}
+{% comment %} This is simply an index for all the designs - no styling necessary here!!! {% endcomment %}
+{% block content %}
+    <div class="jumbotron">
+        <h1>{{ request.path }}</h1>
+
+        <h3>Welcome to the design gateway. Here's a list of what is currently being brewed up in the lab:</h3>
+    </div>
+    <ul class="list-unstyled">
+        {{ tree|unordered_list }}
+    </ul>
+{% endblock content %}
