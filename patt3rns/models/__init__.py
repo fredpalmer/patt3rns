@@ -11,5 +11,8 @@ from .fields import (
 
 from .models import (
     BaseModel,
+    Action,
     Metadata,
+    Participant,
+    Pattern,
 )

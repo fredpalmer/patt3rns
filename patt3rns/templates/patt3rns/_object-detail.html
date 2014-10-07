@@ -5,9 +5,7 @@
     <dd>{{ object.date_created }}</dd>
     <dt>Last Modified</dt>
     <dd>{{ object.date_modified }}</dd>
-    {% if details_template %}
-        {% include details_template %}
-    {% endif %}
+    {% block extended-detail %}{% endblock extended-detail %}
 </dl>
 <p>
     <a class="btn btn-danger" href="{% url "object-delete" pk=object.pk model=view.kwargs.model %}">{% trans "Remove" %}</a>

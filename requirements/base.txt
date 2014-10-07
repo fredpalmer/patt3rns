@@ -1,17 +1,20 @@
 # Base requirements needed to run this application
 --allow-all-external
 Django>=1.7                             # The web application framework used for this project
+MySQL-python>=1.2.5                     # Database library used to communicate with MySQL
+Pillow>=2.6.0                           # Python Imaging Library - a fork that has built-in image support is maintained more often
 django-allauth>=0.18.0                  # Django auth module for local and social account registration
 django-pipeline>=1.3.25                 # Asset (Javascript and CSS) compilation, minification and bundling
+djangorestframework>=2.4.3              # API rest framework that coordinates with Django's subsystems
 oauthlib>=0.6.3                         # requests-oauthlib dependency (and therefore also a django-allauth dependency)
 python-openid>=2.2.5                    # Python OpenID library (django-allauth dependency)
 pytz>=2014.7                            # Python timezone library (Django recommended)
 requests-oauthlib>=0.4.1                # django-allauth dependency
 requests>=2.4.1                         # HTTP library for Python (allauth dependency)
-MySQL-python>=1.2.5                     # Database library used to communicate with MySQL
-Pillow>=2.6.0                           # Python Imaging Library - a fork that has built-in image support is maintained more often
+markdown>=2.5.1                          # Used for API documentation generation
 
 # Other goodies
+# django-filter>=0.7                      # Used in conjunction with Django Rest Framework for providing more restrictive API filtering
 # supervisor>=3.1.2                       # A process control system
 # raven>=5.0.0                            # Client for sentry logging
 # boto>=2.32.1                            # Python interface for Amazon Web Services

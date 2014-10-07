@@ -1,6 +1,6 @@
 {% load i18n patt3rns_tags %}
 {% include "forms/errors.html" %}
-<form class="{% if not form_class %}form-horizontal{% endif %}" method="post" role="form" action="{{ request.get_full_path }}" novalidate>
+<form class="{% if not form_class %}form-horizontal{% endif %}" method="post" role="form" action="{% if action %}{{ action }}{% else %}{{ request.get_full_path }}{% endif %}" novalidate>
     {% csrf_token %}
     {% for field in form.hidden_fields %}
         {{ field }}
@@ -10,13 +10,16 @@
             {% include "forms/field.html" with field=field %}
         {% endfor %}
     {% endwith %}
-    <div class="form-group">
-        <div>
-            <button type="submit"
-                    class="btn {% if submit_button_class %}{{ submit_button_class }}{% else %}btn-primary{% endif %} btn-lg"
-                    value="{% if submit_text %}{{ submit_text|slugify }}{% else %}submit{% endif %}">
-                {% if submit_text %}{{ submit_text }}{% else %}{% trans "Submit" %}{% endif %}
-            </button>
+    {% block form-extra %}{% endblock form-extra %}
+    {% block buttons %}
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit"
+                        class="btn {% if submit_button_class %}{{ submit_button_class }}{% else %}btn-primary{% endif %} btn-lg"
+                        value="{% if submit_text %}{{ submit_text|slugify }}{% else %}submit{% endif %}">
+                    {% if submit_text %}{{ submit_text }}{% else %}{% trans "Submit" %}{% endif %}
+                </button>
+            </div>
         </div>
-    </div>
+    {% endblock buttons %}
 </form>

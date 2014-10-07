@@ -103,20 +103,20 @@ class ScheduleView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(ScheduleView, self).get_context_data(**kwargs)
-        context["objects"] = ["habit", "participant", "pattern"]
+        context["objects"] = ["action", "participant", "pattern"]
         return context
 
 
 class DashboardView(TemplateView):
     template_name = "patt3rns/dashboard.html"
 
-    @method_decorator(login_required)
+    #@method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super(DashboardView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(DashboardView, self).get_context_data(**kwargs)
-        context["objects"] = ["habit", "participant", "pattern"]
+        context["objects"] = ["action", "participant", "pattern"]
         return context
 
 
@@ -155,18 +155,6 @@ class SingleObjectViewBase(TemplateResponseMixin, ContextMixin, View):
         # Add the meta of the model to the context - variables that start with underscore are not available
         # noinspection PyProtectedMember
         context["meta"] = self.model._meta
-
-        # Attempt to get an existing details template to render object-specific details
-        # noinspection PyProtectedMember
-        details_template = os.path.join(self.model._meta.app_label, "{}-detail.html".format(self.kwargs.get("model")))
-        try:
-            template.loader.get_template(details_template)
-        except template.TemplateDoesNotExist:
-            logger.debug("Could not find detail template for %s with %s", self.model, details_template)
-            pass
-        else:
-            context["details_template"] = details_template
-
         logger.debug("%s::get_context_data => %s", self.__class__.__name__, context)
         return context
 
@@ -196,7 +184,7 @@ class ObjectDeleteView(GenericSingleObjectTemplateResponseMixin, SingleObjectVie
     template_name_suffix = "-confirm-delete"
 
     def get_success_url(self):
-        return reverse("object-list", kwargs=dict(model=self.model))
+        return reverse("object-list", kwargs=dict(model=self.kwargs.get("model")))
 
 
 class ObjectListView(SingleObjectViewBase, ListView):

@@ -3,6 +3,7 @@ import types
 
 from django import forms
 from django import template
+from django.template import defaultfilters
 from django.forms.forms import BoundField
 
 logger = logging.getLogger(__name__)
@@ -86,7 +87,7 @@ def placeholder(field, custom_placeholder=None):
     """
     if isinstance(field, BoundField):
         attrs = field.field.widget.attrs
-        attrs["placeholder"] = custom_placeholder or field.help_text or field.label
+        attrs["placeholder"] = custom_placeholder or defaultfilters.striptags(field.help_text) or field.label
         if field.field.required:
             attrs["required"] = "required"
     else:

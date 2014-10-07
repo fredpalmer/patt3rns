@@ -1,0 +1,8 @@
+{% extends "forms/form.html" %}
+{% load i18n %}
+{% block form-extra %}
+    {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+    {% endif %}
+{% endblock form-extra %}
+

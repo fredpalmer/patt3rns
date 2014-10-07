@@ -302,6 +302,7 @@ INSTALLED_APPS = (
     "portal",
     # "raven.contrib.django.raven_compat",
     "pipeline",
+    "rest_framework",
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -310,6 +311,9 @@ AUTHENTICATION_BACKENDS = (
 
     # django-guardian specific authentication needs for object permissions
     # "guardian.backends.ObjectPermissionBackend",
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
 )
 
 # For django-guardian support of anonymous user's object permission
@@ -468,7 +472,7 @@ TEST = False
 # GRAPPELLI_ADMIN_TITLE = "Site Admin"
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-SESSION_CACHE_ALIAS = "default"
+SESSION_SAVE_EVERY_REQUEST = True
 
 # region django-pipeline settings
 
@@ -482,6 +486,12 @@ APP_PIPELINE_CSS_DIR = os.path.join(APP_PIPELINE_OUTPUT_DIR, "css")
 APP_PIPELINE_JS_DIR = os.path.join(APP_PIPELINE_OUTPUT_DIR, "js")
 
 PIPELINE_CSS = {
+    "api": {
+        "source_filenames": (
+            "bootstrap/dist/css/bootstrap.min.css",
+        ),
+        "output_filename": os.path.join(APP_PIPELINE_CSS_DIR, "api.css"),
+    },
     "app": {
         "source_filenames": (
             "bootstrap/dist/css/bootstrap.min.css",
@@ -497,7 +507,7 @@ PIPELINE_CSS = {
             "css/design.css",
         ),
         "output_filename": os.path.join(APP_PIPELINE_CSS_DIR, "design.css"),
-        },
+    },
     "portal": {
         "source_filenames": (
             "bootstrap/dist/css/bootstrap.min.css",
@@ -509,14 +519,24 @@ PIPELINE_CSS = {
 }
 
 PIPELINE_JS = {
+    "api": {
+        "source_filenames": (
+            "jquery/dist/jquery.js",
+            "bootstrap/dist/js/bootstrap.js",
+        ),
+        "output_filename": os.path.join(APP_PIPELINE_JS_DIR, "api.js"),
+    },
     "app": {
         "source_filenames": (
             "knockout/dist/knockout.js",
             "knockout-mapping/knockout.mapping.js",
             "jquery/dist/jquery.js",
+            "jquery.cookie/jquery.cookie.js",
             "bootstrap/dist/js/bootstrap.js",
             "js/app.js",
+            "moment/min/moment.min.js",
             "js/ajax-setup.js",
+            "aui/aui-min.js",
         ),
         "output_filename": os.path.join(APP_PIPELINE_JS_DIR, "base.js"),
     },

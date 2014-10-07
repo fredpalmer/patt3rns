@@ -1,6 +1,15 @@
 {% extends "design/base.html" %}
 {% load i18n %}
 {% block content %}
-    <h2>Are you sure you want to delete "{{ object }}"?</h2>
-    {% include "forms/form.html" with form=form submit_text="Confirm" submit_button_class="btn-danger" %}
+    <div class="alert alert-danger">
+        <h2>Are you sure you want to delete <small>{{ object }}</small>?</h2>
+        <form method="post" role="form" action="{{ request.get_full_path }}" novalidate>
+            {% csrf_token %}
+            <div class="form-group">
+                <div>
+                    <button type="submit" class="btn btn-danger btn-lg" value="confirm">{% trans "Confirm" %}</button>
+                </div>
+            </div>
+        </form>
+    </div>
 {% endblock content %}

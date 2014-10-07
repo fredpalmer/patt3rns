@@ -1,13 +1,16 @@
+{% extends "patt3rns/object-detail.html" %}
 {% load i18n %}
-<dt>Edited By</dt>
-<dd>{{ object.edited_by }}</dd>
-<dt>Notes</dt>
-<dd>{{ object.notes }}</dd>
-<dt>Date of Occurrence</dt>
-<dd>{{ object.date_occurrence }}</dd>
-<dt>Time of Occurrence</dt>
-<dd>{{ object.time_occurrence }}</dd>
-<dt>Participant</dt>
-<dd>{{ object.participant }}</dd>
-<dt>Habit</dt>
-<dd>{{ object.habit }}</dd>
+{% block extended-detail %}
+    <dt>Edited By</dt>
+    <dd>{{ object.edited_by }}</dd>
+    <dt>Notes</dt>
+    <dd>{{ object.notes }}</dd>
+    <dt>Date of Occurrence</dt>
+    <dd>{{ object.date_occurrence }}</dd>
+    <dt>Time of Occurrence</dt>
+    <dd>{{ object.time_occurrence }}</dd>
+    <dt>Participant</dt>
+    <dd>{{ object.participant }}</dd>
+    <dt>Action</dt>
+    <dd>{{ object.action }}</dd>
+{% endblock extended-detail %}

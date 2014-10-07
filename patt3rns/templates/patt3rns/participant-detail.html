@@ -1,5 +1,8 @@
+{% extends "patt3rns/object-detail.html" %}
 {% load i18n %}
-<dt>Date Born</dt>
-<dd>{{ object.date_born }}</dd>
-<dt>Image</dt>
-<dd>{% if object.image %}<img src="{{ object.image.url }}"/>{% else %}{% trans "Not provided" %}{% endif %}</dd>
+{% block extended-detail %}
+    <dt>Date Born</dt>
+    <dd>{{ object.date_born }}</dd>
+    <dt>Image</dt>
+    <dd>{% if object.image %}<img src="{{ object.image.url }}"/>{% else %}{% trans "Not provided" %}{% endif %}</dd>
+{% endblock extended-detail %}

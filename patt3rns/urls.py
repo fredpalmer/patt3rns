@@ -32,6 +32,9 @@ urlpatterns = patterns(
     url(r"^$", PortalView.as_view(), name="home"),
     (r"portal/", include("portal.urls")),
 
+    # Api
+    (r"api/", include("api.urls")),
+
     # Admin
     # (r"^grappelli/", include("grappelli.urls")),
     url(r"^manage/admin/doc/", include("django.contrib.admindocs.urls")),
@@ -49,8 +52,8 @@ urlpatterns = patterns(
     # Upload Handler
     # url(r"^(?P<app>\w+)/(?P<model>\w+(-\w+)*)/(?P<pk>\d+)/(?P<field>\w+)/$", "patt3rns.views.upload_handler", name="upload-handler"),
 
-    url(r"dashboard", DashboardView.as_view(), name="dashboard"),
-    url(r"schedule", ScheduleView.as_view(), name="schedule"),
+    url(r"dashboard/", DashboardView.as_view(), name="dashboard"),
+    url(r"schedule/", ScheduleView.as_view(), name="schedule"),
     url(r"^o/list/%(model)s/$" % URL_PATTERNS, ObjectListView.as_view(), name="object-list"),
     url(r"^o/detail/%(model)s/%(pk)s/$" % URL_PATTERNS, ObjectDetailView.as_view(), name="object-detail"),
     url(r"^o/create/%(model)s/$" % URL_PATTERNS, ObjectCreateView.as_view(), name="object-create"),

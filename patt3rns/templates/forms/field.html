@@ -1,7 +1,7 @@
 {% load i18n patt3rns_tags %}
 {% if not field.is_hidden %}
     {% with widget_attrs=field.field.widget.attrs %}
-        {% with current_field_type=field|object_type %}
+        {% with current_field_type=field.field|object_type %}
             <!-- field type: {{ current_field_type }}, name: {{ field.html_name }}, id: {{ field.auto_id }} ================================================== -->
             <!-- field value => {{ field.value }} -->
             <!-- field disabled => {% if widget_attrs.disabled %}True{% else %}False{% endif %} -->
@@ -28,7 +28,7 @@
                     {% elif field.help_text and field.help_text|lower != field.label %}
                         {# NOTE: there's no need to output the help_text if it's the same as the label #}
                         {# cut is used here to deal with bug/annoyance of Django adding this text for certain types of controls https://code.djangoproject.com/ticket/9321 #}
-                        <span class="help-block">{{ field.help_text|cut:'Hold down "Control", or "Command" on a Mac, to select more than one.' }}</span>
+                        <span class="help-block">{{ field.help_text|safe|cut:'Hold down "Control", or "Command" on a Mac, to select more than one.' }}</span>
                     {% endif %}
                 </div>
             </div>

@@ -128,8 +128,8 @@ class Metadata(BaseModel):
         ))
 
 
-class Habit(BaseModel):
-    description = patt3rns_fields.CharField(max_length=255)
+class Action(BaseModel):
+    description = patt3rns_fields.CharField(max_length=255, help_text=u"Should be in the form of <em>verb</em> or <em>verb at noun</em>, e.g.: <strong><em>jumped into the leaves</em></strong>")
 
     def __unicode__(self):
         return self.description
@@ -152,9 +152,12 @@ class Participant(BaseModel):
 # TODO: should add auditing (e.g. reversion)
 class Pattern(BaseModel):
     edited_by = models.ForeignKey(settings.AUTH_USER_MODEL)
-    notes = patt3rns_fields.TextField()
+    notes = patt3rns_fields.TextField(blank=True)
     date_occurrence = patt3rns_fields.DateField(db_index=True)
     time_occurrence = patt3rns_fields.TimeField(null=True, blank=True)
     participant = models.ForeignKey(Participant)
-    habit = models.ForeignKey(Habit)
+    action = models.ForeignKey(Action)
+
+    def __unicode__(self):
+        return u"the instance where {} {} on {}".format(self.participant, self.action, self.date_occurrence)
 
