@@ -5,13 +5,11 @@ import sys
 from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from django.core.urlresolvers import reverse_lazy
-from django.views.generic import RedirectView, CreateView, UpdateView, DeleteView, ListView, DetailView
-from patt3rns.models import Habit
+from django.views.generic import RedirectView
 
 from patt3rns.sitemap import ProjectSitemap
 from patt3rns.utils import URL_PATTERNS
-from patt3rns.views import DashboardView
+from patt3rns.views import DashboardView, ObjectCreateView, ObjectListView, ObjectUpdateView, ObjectDeleteView, ObjectDetailView, ScheduleView
 from portal.views import PortalView
 
 
@@ -20,7 +18,7 @@ def raise_error(request):
     import logging
 
     logger = logging.getLogger(__name__)
-    logger.error("Test error log message")
+    logger.error("Test error log message => %s", request.path)
     raise Exception("Test unhandled exception")
 
 
@@ -52,11 +50,12 @@ urlpatterns = patterns(
     # url(r"^(?P<app>\w+)/(?P<model>\w+(-\w+)*)/(?P<pk>\d+)/(?P<field>\w+)/$", "patt3rns.views.upload_handler", name="upload-handler"),
 
     url(r"dashboard", DashboardView.as_view(), name="dashboard"),
-    url(r"^habits/$", ListView.as_view(model=Habit), name="habit-list"),
-    url(r"^habit/%(pk)s/$" % URL_PATTERNS, DetailView.as_view(model=Habit), name="habit-detail"),
-    url(r"^habit/create/$", CreateView.as_view(model=Habit), name="habit-create"),
-    url(r"^habit/update/%(pk)s/$" % URL_PATTERNS, UpdateView.as_view(model=Habit), name="habit-update"),
-    url(r"^habit/delete/%(pk)s/$" % URL_PATTERNS, DeleteView.as_view(model=Habit, success_url=reverse_lazy("habit-list")), name="habit-delete"),
+    url(r"schedule", ScheduleView.as_view(), name="schedule"),
+    url(r"^o/list/%(model)s/$" % URL_PATTERNS, ObjectListView.as_view(), name="object-list"),
+    url(r"^o/detail/%(model)s/%(pk)s/$" % URL_PATTERNS, ObjectDetailView.as_view(), name="object-detail"),
+    url(r"^o/create/%(model)s/$" % URL_PATTERNS, ObjectCreateView.as_view(), name="object-create"),
+    url(r"^o/update/%(model)s/%(pk)s/$" % URL_PATTERNS, ObjectUpdateView.as_view(), name="object-update"),
+    url(r"^o/delete/%(model)s/%(pk)s/$" % URL_PATTERNS, ObjectDeleteView.as_view(), name="object-delete"),
 
 
     (r"^sitemap\.xml$", "django.contrib.sitemaps.views.sitemap", {"sitemaps": sitemaps}),

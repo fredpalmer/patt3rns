@@ -1,8 +1,13 @@
 import inspect
+import logging
+import os
 import uuid
-from django.core.urlresolvers import reverse
+
 from django.db import models
+# from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now as datetime_now
+
+logger = logging.getLogger(__name__)
 
 
 class UuidVersionError(Exception):
@@ -108,21 +113,6 @@ class ModificationDateTimeField(CreationDateTimeField):
         return "DateTimeField"
 
 
-class BaseModel(models.Model):
-    uuid = UuidField(editable=False)
-    date_created = CreationDateTimeField()
-    date_modified = ModificationDateTimeField()
-
-    class Meta:
-        abstract = True
-
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        # Make sure auto_now fields such as date_modified get automatically appended to any partial object saves
-        if update_fields:
-            update_fields = list(set(list(update_fields) + ["date_modified"]))
-        super(BaseModel, self).save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
-
-
 class Choice(object):
     """
     Model Choice metaclass from http://tomforb.es/using-python-metaclasses-to-make-awesome-django-model-field-choices
@@ -156,8 +146,85 @@ class Choice(object):
         return self._hash[key]
 
 
-class Habit(BaseModel):
-    description = models.CharField(max_length=255)
+def content_filename(instance, filename):
+    """
+    instance:   An instance of the model where the FileField is defined. More specifically,
+                this is the particular instance where the current file is being attached.
+                In most cases, this object will not have been saved to the database yet,
+                so if it uses the default AutoField, it might not yet have a value for its primary key field.
 
-    def get_absolute_url(self):
-        return reverse("habit-detail", kwargs=dict(pk=self.pk))
+    filename    The filename that was originally given to the file. This may or may not be taken
+                into account when determining the final destination path.
+    """
+    klass_name = instance.__class__.__name__
+    instance.filename = filename
+    uuid_part = str(uuid.uuid4())
+    extension = os.path.splitext(filename)[1]
+    generated_name = os.path.join("uploads", klass_name, uuid_part + extension).lower()
+    logger.debug(u"Generating file name for \"%s\" to be uploaded as => %s", filename, generated_name)
+    return generated_name
+
+
+class FileField(models.FileField):
+    def __init__(self, verbose_name=None, name=None, upload_to=content_filename, storage=None, **kwargs):
+        super(FileField, self).__init__(verbose_name=verbose_name, name=name, upload_to=upload_to, storage=storage, **kwargs)
+
+
+class ImageField(models.ImageField):
+    def __init__(self, verbose_name=None, name=None, width_field=None, height_field=None, upload_to=content_filename, **kwargs):
+        super(ImageField, self).__init__(verbose_name=verbose_name,
+                                         name=name,
+                                         width_field=width_field,
+                                         height_field=height_field,
+                                         upload_to=upload_to,
+                                         **kwargs)
+
+
+class CharField(models.CharField):
+    __metaclass__ = models.SubfieldBase
+
+    def clean(self, value, model_instance):
+        if hasattr(value, "strip"):
+            value = value.strip()
+        return super(CharField, self).clean(value=value, model_instance=model_instance)
+
+    def formfield(self, **kwargs):
+        from patt3rns import forms as patt3rns_forms
+
+        return super(CharField, self).formfield(form_class=patt3rns_forms.CharField, **kwargs)
+
+
+class TextField(models.TextField):
+    __metaclass__ = models.SubfieldBase
+
+    def formfield(self, **kwargs):
+        from patt3rns import forms as patt3rns_forms
+
+        return super(TextField, self).formfield(form_class=patt3rns_forms.CharField, **kwargs)
+
+
+class DateField(models.DateField):
+    __metaclass__ = models.SubfieldBase
+
+    def formfield(self, **kwargs):
+        from patt3rns import forms as patt3rns_forms
+
+        return super(DateField, self).formfield(form_class=patt3rns_forms.DateField, **kwargs)
+
+
+class DateTimeField(models.DateTimeField):
+    __metaclass__ = models.SubfieldBase
+
+    def formfield(self, **kwargs):
+        from patt3rns import forms as patt3rns_forms
+
+        return super(DateTimeField, self).formfield(form_class=patt3rns_forms.DateTimeField, **kwargs)
+
+
+class TimeField(models.TimeField):
+    __metaclass__ = models.SubfieldBase
+
+    def formfield(self, **kwargs):
+        from patt3rns import forms as patt3rns_forms
+
+        return super(TimeField, self).formfield(form_class=patt3rns_forms.TimeField, **kwargs)

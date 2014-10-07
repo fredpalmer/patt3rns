@@ -546,7 +546,7 @@ DESIGNER_PLAYGROUND = "design"
 
 
 def configure_email(this_module, app_environment):
-    admins = ( ("{} Admin".format(DOMAIN), "admin+{}@{}".format(app_environment, DOMAIN)), )
+    admins = (("{} Admin".format(DOMAIN), "admin+{}@{}".format(app_environment, DOMAIN)), )
     email_subject_prefix = "[Django ({} {})] ".format(DOMAIN, app_environment.upper())
 
     setattr(this_module, "ADMINS", admins)
@@ -561,6 +561,7 @@ def get_current_app_env(obj):
     """
     if not obj:
         from django.core.exceptions import ImproperlyConfigured
+
         raise ImproperlyConfigured("obj must be defined in the settings module calling this function, e.g.:  get_current_app_env(lambda _: None)")
 
     source_file = getsourcefile(obj)

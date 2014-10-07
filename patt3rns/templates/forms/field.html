@@ -1,0 +1,38 @@
+{% load i18n patt3rns_tags %}
+{% if not field.is_hidden %}
+    {% with widget_attrs=field.field.widget.attrs %}
+        {% with current_field_type=field|object_type %}
+            <!-- field type: {{ current_field_type }}, name: {{ field.html_name }}, id: {{ field.auto_id }} ================================================== -->
+            <!-- field value => {{ field.value }} -->
+            <!-- field disabled => {% if widget_attrs.disabled %}True{% else %}False{% endif %} -->
+            <!-- field required => {% if widget_attrs.required %}True{% else %}False{% endif %} -->
+            <!-- field readonly => {% if widget_attrs.readonly %}True{% else %}False{% endif %} -->
+            <div id="field-{{ field.auto_id }}" class="form-group{% if form_group_class %} {{ form_group_class }}{% endif %}{% if field.errors %} has-error has-feedback{% endif %}">
+                {% if current_field_type != "BooleanField" %}
+                    <label for="{{ field.auto_id }}" class="control-label col-sm-2">{% if label %}{{ label }}{% else %}{{ field.label }}{% endif %}</label>
+                {% endif %}
+                <div class="{% if current_field_type == "BooleanField" %}col-sm-offset-2{% endif %} col-sm-10">
+                    {% if current_field_type == "BooleanField" %}
+                        <div class="checkbox">
+                            <label>
+                                {{ field }}{% if label %}{% else %}{{ field.label }}{% endif %}
+                            </label>
+                        </div>
+                    {% else %}
+                        {{ field|class:"form-control"|placeholder }}
+                    {% endif %}
+
+                    {% if field.errors %}
+                        <span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
+                        <span class="help-block">{{ field.errors.0 }}</span>
+                    {% elif field.help_text and field.help_text|lower != field.label %}
+                        {# NOTE: there's no need to output the help_text if it's the same as the label #}
+                        {# cut is used here to deal with bug/annoyance of Django adding this text for certain types of controls https://code.djangoproject.com/ticket/9321 #}
+                        <span class="help-block">{{ field.help_text|cut:'Hold down "Control", or "Command" on a Mac, to select more than one.' }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            <!-- /end field render => type: {{ current_field_type }}, name: {{ field.html_name }}, id: {{ field.auto_id }} -->
+        {% endwith %}
+    {% endwith %}
+{% endif %}

@@ -6,6 +6,7 @@ _UUID_SHORT_RAW = ur"[a-f0-9]{13}"
 _SLUG = ur"\w[-_\w]*"
 
 URL_PATTERNS = {
+    "model": ur"(?P<model>\w+)",
     "uuid": ur"(?P<uuid>%s)" % _UUID_RAW,
     "uuid_short": ur"(?P<uuid>%s)" % _UUID_SHORT_RAW,
     "uuid_or_uuid_short": ur"(?P<uuid>%s|%s)" % (_UUID_RAW, _UUID_SHORT_RAW),

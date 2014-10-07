@@ -1,0 +1,15 @@
+{% load i18n %}
+<h1>{{ meta.verbose_name|title }} <small>{{ object }}</small></h1>
+<dl class="dl-horizontal">
+    <dt>Created</dt>
+    <dd>{{ object.date_created }}</dd>
+    <dt>Last Modified</dt>
+    <dd>{{ object.date_modified }}</dd>
+    {% if details_template %}
+        {% include details_template %}
+    {% endif %}
+</dl>
+<p>
+    <a class="btn btn-danger" href="{% url "object-delete" pk=object.pk model=view.kwargs.model %}">{% trans "Remove" %}</a>
+    <a class="btn btn-primary" href="{% url "object-update" pk=object.pk model=view.kwargs.model %}">{% trans "Update" %}</a>
+</p>

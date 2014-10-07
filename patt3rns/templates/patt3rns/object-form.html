@@ -1,0 +1,6 @@
+{% extends "design/base.html" %}
+{% load i18n %}
+{% block content %}
+    <h1>{% if form.instance.pk %}{% trans "Update" %}{% else %}{% trans "Create" %}{% endif %} {{ meta.verbose_name|title }} {% if form.instance.pk %}<small>{{ form.instance }}</small>{% endif %}</h1>
+    {% include "forms/form.html" with form=form %}
+{% endblock content %}

@@ -9,9 +9,9 @@ pytz>=2014.7                            # Python timezone library (Django recomm
 requests-oauthlib>=0.4.1                # django-allauth dependency
 requests>=2.4.1                         # HTTP library for Python (allauth dependency)
 MySQL-python>=1.2.5                     # Database library used to communicate with MySQL
+Pillow>=2.6.0                           # Python Imaging Library - a fork that has built-in image support is maintained more often
 
 # Other goodies
-# Pillow>=2.6.0                           # Python Imaging Library - a fork that has built-in image support is maintained more often
 # supervisor>=3.1.2                       # A process control system
 # raven>=5.0.0                            # Client for sentry logging
 # boto>=2.32.1                            # Python interface for Amazon Web Services

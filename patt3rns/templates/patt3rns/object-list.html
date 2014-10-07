@@ -1,0 +1,14 @@
+{% extends "design/base.html" %}
+{% load i18n %}
+{% block content %}
+    <h1>{{ meta.verbose_name_plural|title }} <small>{{ object_list|length }} {% trans "total" %}</small> <a class="btn btn-link" href="{% url "object-create" model=view.kwargs.model %}">{% trans "Create" %}</a></h1>
+    <ul class="list-unstyled">
+        {% for object in object_list %}
+            <li>{% include "patt3rns/_object-detail.html" %}</li>
+        {% empty %}
+            <li>{% trans "None created yet" %}</li>
+        {% endfor %}
+    </ul>
+    <hr/>
+    <a class="btn btn-link" href="{% url "object-create" model=view.kwargs.model %}">{% trans "Create" %}</a>
+{% endblock content %}

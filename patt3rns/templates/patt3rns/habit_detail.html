@@ -1,8 +1,0 @@
-{% extends "design/base.html" %}
-{% block content %}
-    <h1>{{ object.description }}</h1>
-    <p>Created: {{ object.date_created }}</p>
-    <p>Last Modified: {{ object.date_modified }}</p>
-    <p><a class="btn btn-danger" href="{% url "habit-delete" pk=object.pk %}">Remove</a></p>
-    <p><a class="btn btn-primary" href="{% url "habit-update" pk=object.pk %}">Update</a></p>
-{% endblock content %}

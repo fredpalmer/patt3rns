@@ -1,0 +1,22 @@
+{% load i18n patt3rns_tags %}
+{% include "forms/errors.html" %}
+<form class="{% if not form_class %}form-horizontal{% endif %}" method="post" role="form" action="{{ request.get_full_path }}" novalidate>
+    {% csrf_token %}
+    {% for field in form.hidden_fields %}
+        {{ field }}
+    {% endfor %}
+    {% with form_group_class="form-group-lg" %}
+        {% for field in form.visible_fields %}
+            {% include "forms/field.html" with field=field %}
+        {% endfor %}
+    {% endwith %}
+    <div class="form-group">
+        <div>
+            <button type="submit"
+                    class="btn {% if submit_button_class %}{{ submit_button_class }}{% else %}btn-primary{% endif %} btn-lg"
+                    value="{% if submit_text %}{{ submit_text|slugify }}{% else %}submit{% endif %}">
+                {% if submit_text %}{{ submit_text }}{% else %}{% trans "Submit" %}{% endif %}
+            </button>
+        </div>
+    </div>
+</form>
