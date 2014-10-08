@@ -11,4 +11,7 @@ import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "patt3rns.settings")
 
 from django.core.wsgi import get_wsgi_application
-application = get_wsgi_application()
+from dj_static import Cling
+
+# Cling intercepts static files and serves them
+application = Cling(get_wsgi_application())

@@ -129,12 +129,19 @@ STATIC_URL = "/m/"
 # a build process one would simply get the sha of the current revision being built
 STATIC_FILES_VERSION = "EATDEADBEEF"
 
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": ":memory:",
-    },
+        "NAME": os.path.join(BASE_DIR, "{}.db".format(REPO_NAME)),
+    }
 }
+
+# Heroku setup database
+if os.environ.get("DATABASE_URL"):
+    # Parse database configuration from $DATABASE_URL
+    import dj_database_url
+    DATABASES["default"] =  dj_database_url.config()
 
 DATABASE_PRIMARY_HOST = None
 DATABASE_PRIMARY_PORT = None
