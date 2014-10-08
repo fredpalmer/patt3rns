@@ -472,7 +472,7 @@ TEST = False
 # GRAPPELLI_ADMIN_TITLE = "Site Admin"
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-SESSION_SAVE_EVERY_REQUEST = True
+# SESSION_SAVE_EVERY_REQUEST = True
 
 # region django-pipeline settings
 

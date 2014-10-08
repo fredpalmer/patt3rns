@@ -139,7 +139,7 @@ class Action(BaseModel):
 class Participant(BaseModel):
     first_name = patt3rns_fields.CharField(max_length=255)
     last_name = patt3rns_fields.CharField(max_length=255)
-    date_born = patt3rns_fields.DateField()
+    date_born = patt3rns_fields.DateField(blank=True, null=True)
     metadata = GenericRelation(Metadata)
     image = patt3rns_fields.ImageField(blank=True, null=True)
     # created_by = models.ForeignKey(settings.AUTH_USER_MODEL)

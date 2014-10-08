@@ -9,8 +9,8 @@
     <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
 
     {% url "account_signup" as action %}
-    {% trans "Sign Up" as submit_text %}
-    {% include "account/form.html" with form=form action=action submit_text=submit_text %}
+    {% trans "Sign Up" as submit_button_text %}
+    {% include "account/form.html" with form=form action=action submit_button_text=submit_button_text %}
 {% endblock content %}
 
 

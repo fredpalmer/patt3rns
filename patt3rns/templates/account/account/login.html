@@ -29,8 +29,8 @@
     {% endif %}
 
     {% url "account_login" as action %}
-    {% trans "Login" as submit_text %}
-    {% include "account/form.html" with form=form action=action submit_text=submit_text %}
+    {% trans "Login" as submit_button_text %}
+    {% include "account/form.html" with form=form action=action submit_button_text=submit_button_text %}
     <hr/>
     <a href="{% url "account_reset_password" %}">{% trans "Forgot Password?" %}</a>
 

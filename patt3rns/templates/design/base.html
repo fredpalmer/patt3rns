@@ -1,5 +1,6 @@
-{% load webdesign compressed %}<!DOCTYPE html>
+{% load webdesign compressed account %}
 {% load cycle from future %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -39,7 +40,7 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        {% if request.user.is_authenticated %}
+                        {% if user.is_authenticated %}
                             {% cycle "dashboard" "schedule" as section silent %}
                             {% for x in "xx" %}
                                 <li {% if section in request.path %}class="active"{% endif %}><a href="{% url section %}">{{ section|title }}</a></li>
@@ -62,9 +63,9 @@
                         {% endif %}
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        {% if request.user.is_authenticated %}
+                        {% if user.is_authenticated %}
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.username }} <span class="caret"></span></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% user_display user %} <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="{% url "account_logout" %}">Logout</a></li>
                                     <li><a href="{% url "account_email" %}">Manage Email</a></li>
@@ -120,5 +121,10 @@
 {% endblock js %}
 
 {% block extra-body %}{% endblock extra-body %}
+<div class="footer">
+    <div class="container">
+        <p class="text-muted"><span class="glyphicon glyphicon-copyright-mark"> R3MLAPSE {% now "Y" %}</span></p>
+    </div>
+</div>
 </body>
 </html>

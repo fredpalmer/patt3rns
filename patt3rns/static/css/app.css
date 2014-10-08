@@ -5,7 +5,31 @@
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
     padding-top: 50px;
+    /* Margin bottom by footer height */
+    margin-bottom: 40px;
 }
+
+/* BEGIN Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 40px;
+    background-color: #f5f5f5;
+}
+
+.footer > .container {
+    margin-top: 10px;
+}
+/* END Sticky footer styles
+-------------------------------------------------- */
 
 /*
  * Global add-ons
@@ -108,4 +132,3 @@ body {
     display: inline-block;
     border-radius: 50%;
 }
-

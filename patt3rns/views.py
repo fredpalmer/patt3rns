@@ -110,7 +110,7 @@ class ScheduleView(TemplateView):
 class DashboardView(TemplateView):
     template_name = "patt3rns/dashboard.html"
 
-    #@method_decorator(login_required)
+    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super(DashboardView, self).dispatch(request, *args, **kwargs)
 
@@ -158,6 +158,7 @@ class SingleObjectViewBase(TemplateResponseMixin, ContextMixin, View):
         logger.debug("%s::get_context_data => %s", self.__class__.__name__, context)
         return context
 
+    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         model = kwargs.get("model")
         for app_config in apps.get_app_configs():
