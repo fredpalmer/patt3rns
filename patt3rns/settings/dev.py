@@ -22,12 +22,12 @@ THUMBNAIL_CHECK_CACHE_MISS = True  # Defaults to False and allows us to simply c
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": REPO_NAME,
-        "USER": "root",
-        "PASSWORD": "",
-        "HOST": "127.0.0.1",
-        "PORT": 3306,
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "{}.db".format(REPO_NAME)),
+        # "USER": "root",
+        # "PASSWORD": "",
+        # "HOST": "127.0.0.1",
+        # "PORT": 3306,
     }
 }
 
