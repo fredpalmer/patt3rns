@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -eo pipefail
-source ./script-tools.sh
+source script-tools.sh
 
 # The post_compile hook is run by heroku-buildpack-python
 log_info "${SCRIPT_NAME} started..."
