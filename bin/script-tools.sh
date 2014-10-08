@@ -1,16 +1,8 @@
 #!/usr/bin/env bash
-
 set -e
 readonly SCRIPT_ARGS="$@"
-readonly SCRIPT_NAME="$(basename$0)"
-readonly SCRIPT_BASE_DIR="$(cd"$(dirname"${SCRIPT_NAME}")"&&pwd)"
-
-if [[ "$(pwd)" == "$(dirname"${BASH_SOURCE[0]}")" ]]
-then
-    TMP_CURRENT_DIR="$(pwd)"
-else
-    TMP_CURRENT_DIR="$(cd"$(dirname"${BASH_SOURCE[0]}")"&&pwd)"
-fi
+readonly SCRIPT_NAME="$(basename $0)"
+readonly SCRIPT_BASE_DIR="$(cd "$( dirname "${SCRIPT_NAME}")" && pwd )"
 
 log() {
     local log_text="$1"
@@ -19,7 +11,7 @@ log() {
     # Default level to "info"
     [[ -z ${log_level} ]] && log_level="INFO";
 
-    echo -e "${log_color}[$(date+"%Y-%m-%d %H:%M:%S %Z")] [${log_level}] ${log_text}${LOG_DEFAULT_COLOR}";
+    echo -e "[$(date +"%Y-%m-%d %H:%M:%S %Z")] [${log_level}] ${log_text}";
     return 0;
 }
 
