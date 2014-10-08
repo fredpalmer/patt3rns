@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -eo pipefail
-
+source script-tools.sh
 # The post_compile hook is run by heroku-buildpack-python
-echo "-----> I'm post-compile hook"
+log_info "${SCRIPT_NAME} started..."
 
 if [ -f bin/install_nodejs ]; then
     echo "-----> Running install_nodejs"
@@ -16,10 +16,4 @@ if [ -f bin/install_nodejs ]; then
     fi
 fi
 
-if [ -f bin/run_collectstatic ]; then
-    echo "-----> Running run_collectstatic"
-    chmod +x bin/run_collectstatic
-    bin/run_collectstatic
-fi
-
-echo "-----> Post-compile done"
+log_info "${SCRIPT_NAME} ended..."
