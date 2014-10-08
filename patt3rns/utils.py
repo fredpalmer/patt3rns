@@ -1,5 +1,4 @@
 import re
-from django.conf import settings
 
 _UUID_RAW = ur"[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"
 _UUID_SHORT_RAW = ur"[a-f0-9]{13}"
@@ -23,15 +22,6 @@ URL_PATTERNS = {
     "section": ur"(?P<section>%s)" % _SLUG,
     "subsection": ur"(?P<subsection>%s)" % _SLUG,
 }
-
-
-def show_toolbar_callback(request):
-    # This is a simple callback function for the SHOW_TOOLBAR_CALLBACK Django Debug Toolbar setting
-    from debug_toolbar.middleware import show_toolbar
-
-    dev_override = getattr(settings, "DEBUG_TOOLBAR_SHOW_TOOLBAR", True)
-    return False if settings.TEST else dev_override and show_toolbar(request)
-
 
 def sort_nicely(sortable):
     """ Sort the given list in the way that humans expect """

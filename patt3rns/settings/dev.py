@@ -109,8 +109,16 @@ DEBUG_TOOLBAR_PANELS = (
     "debug_toolbar.panels.redirects.RedirectsPanel",
 )
 
+
+def show_toolbar_callback(request):
+    # This is a simple callback function for the SHOW_TOOLBAR_CALLBACK Django Debug Toolbar setting
+    # Not a debug toolbar setting, but allows a simple override to hide it in local settings
+    dev_override = getattr(sys.modules[__name__], "DEBUG_TOOLBAR_SHOW_TOOLBAR", True)
+    return bool(request.META.get("REMOTE_ADDR") in INTERNAL_IPS and not request.is_ajax() and dev_override and DEBUG and not TEST)
+
+
 DEBUG_TOOLBAR_CONFIG = {
-    "SHOW_TOOLBAR_CALLBACK": "patt3rns.utils.show_toolbar_callback",
+    "SHOW_TOOLBAR_CALLBACK": "patt3rns.settings.dev.show_toolbar_callback",
 }
 
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
