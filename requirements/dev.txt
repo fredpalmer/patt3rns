@@ -19,6 +19,7 @@ pycrypto>=2.6.1                         # Cryptographic modules for Python (para
 sqlparse>=0.1.11                        # Django debug toolbar dependency
 ssh>=1.8.0                              # SSH2 protocol library (Fabric dependency)
 wheel>=0.24.0                           # Used by pip to package a dependency for faster deployment
+django_extensions                       # Useful helpers for Django
 
 # Documentation
 # Sphinx
