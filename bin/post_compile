@@ -5,7 +5,8 @@ source script-tools.sh
 # The post_compile hook is run by heroku-buildpack-python
 log_info "${SCRIPT_NAME} started..."
 
-type -a node
+echo $PATH
+type -a nodejs
 
 if [ -f bin/install_nodejs ]; then
     echo "-----> Running install_nodejs"
