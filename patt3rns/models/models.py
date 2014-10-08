@@ -88,18 +88,6 @@ class MetadataManager(models.Manager):
     def items(self):
         return list(self.iteritems())
 
-    def get_default_queryset(self):
-        """
-            Unfiltered queryset (includes 'date_removed' objects).
-        """
-        return super(MetadataManager, self).get_queryset()
-
-    def get_queryset(self):
-        """
-            Queryset which only contains active, non-removed objects.
-        """
-        return self.get_default_queryset().filter(date_removed__isnull=True)
-
 
 class Metadata(BaseModel):
     key = patt3rns_fields.CharField(max_length=100, db_index=True)

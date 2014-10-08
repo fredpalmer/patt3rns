@@ -1,0 +1,91 @@
+[
+    {
+        "fields": {
+            "date_joined": "2014-10-08T19:50:10.023Z",
+            "email": "fred.palmer@gmail.com",
+            "first_name": "",
+            "groups": [],
+            "is_active": true,
+            "is_staff": false,
+            "is_superuser": false,
+            "last_login": "2014-10-08T19:50:10.412Z",
+            "last_name": "",
+            "password": "pbkdf2_sha256$12000$STQ1kwc95lOt$OPOTkj/7qy8uVtCn0hVg5wf1wZr3ze7WjzlOiOhu4HI=",
+            "user_permissions": [],
+            "username": "fred.palmer"
+        },
+        "model": "auth.user",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "email": "fred.palmer@gmail.com",
+            "primary": true,
+            "user": 1,
+            "verified": false
+        },
+        "model": "account.emailaddress",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "created": "2014-10-08T19:50:10.075Z",
+            "email_address": 1,
+            "key": "khrmri1dreu79ov5lhvvtt3rlr0yjnelafrgsgxqtsd7iac0z71algolmovm0arg",
+            "sent": "2014-10-08T19:50:10.405Z"
+        },
+        "model": "account.emailconfirmation",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "date_created": "2014-10-08T19:50:42.581Z",
+            "date_modified": "2014-10-08T19:50:42.581Z",
+            "description": "urinated in bed",
+            "uuid": "62f85e91-4f24-11e4-a561-b8e856493b62"
+        },
+        "model": "patt3rns.action",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "date_born": null,
+            "date_created": "2014-10-08T19:50:21.471Z",
+            "date_modified": "2014-10-08T19:50:21.477Z",
+            "first_name": "Robbie",
+            "image": "",
+            "last_name": "Morgan",
+            "uuid": "56634802-4f24-11e4-9be5-b8e856493b62"
+        },
+        "model": "patt3rns.participant",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "date_born": null,
+            "date_created": "2014-10-08T19:50:34.101Z",
+            "date_modified": "2014-10-08T19:50:34.101Z",
+            "first_name": "David",
+            "image": "",
+            "last_name": "Morgan",
+            "uuid": "5dea6473-4f24-11e4-b84b-b8e856493b62"
+        },
+        "model": "patt3rns.participant",
+        "pk": 2
+    },
+    {
+        "fields": {
+            "action": 1,
+            "date_created": "2014-10-08T19:51:07.773Z",
+            "date_modified": "2014-10-08T19:51:07.779Z",
+            "date_occurrence": "2014-10-04",
+            "edited_by": 1,
+            "notes": "",
+            "participant": 2,
+            "time_occurrence": null,
+            "uuid": "71fd4080-4f24-11e4-82bb-b8e856493b62"
+        },
+        "model": "patt3rns.pattern",
+        "pk": 1
+    }
+]
