@@ -6,21 +6,12 @@ source script-tools.sh
 # The post_compile hook is run by heroku-buildpack-python
 log_info "${SCRIPT_NAME} started..."
 
-echo $PATH
+# Source the paths that node gets installed to via heroku-buildpack-nodejs
 source "${BUILD_DIR}/.profile.d/nodejs.sh"
-type -a node
-echo $PATH
 
-if [ -f bin/install_nodejs ]; then
-    echo "-----> Running install_nodejs"
-    chmod +x bin/install_nodejs
-    bin/install_nodejs
+cd "${BUILD_DIR}"
 
-    if [ -f bin/install_less ]; then
-        echo "-----> Running install_lessc"
-        chmod +x bin/install_less
-        bin/install_less
-    fi
-fi
+./manage.py collectstatic --noinput
+./manage.py migrate --noinput
 
 log_info "${SCRIPT_NAME} ended..."
