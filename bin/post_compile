@@ -1,12 +1,15 @@
 #!/usr/bin/env bash
 set -eo pipefail
+# BUILD_DIR CACHE_DIR ENV_DIR will be available
 source script-tools.sh
 
 # The post_compile hook is run by heroku-buildpack-python
 log_info "${SCRIPT_NAME} started..."
 
 echo $PATH
-type -a nodejs
+source "${BUILD_DIR}/.profile.d/nodejs.sh"
+type -a node
+echo $PATH
 
 if [ -f bin/install_nodejs ]; then
     echo "-----> Running install_nodejs"
