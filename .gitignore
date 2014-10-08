@@ -24,5 +24,6 @@ nosetests.xml
 .idea
 *-ck.js
 app.cfg
-#lib/bower_components/*
+lib/bower_components/*
 lib/node_modules/*
+node_modules

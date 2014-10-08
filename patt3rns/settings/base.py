@@ -483,9 +483,9 @@ SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 
 # region django-pipeline settings
 
-PIPELINE_YUGLIFY_BINARY = os.path.join(BASE_DIR, "lib", "node_modules", ".bin", "yuglify")
+PIPELINE_YUGLIFY_BINARY = os.path.join(BASE_DIR, "node_modules", ".bin", "yuglify")
 PIPELINE_JS_COMPRESSOR = "pipeline.compressors.uglifyjs.UglifyJSCompressor"
-PIPELINE_UGLIFYJS_BINARY = os.path.join(BASE_DIR, "lib", "node_modules", ".bin", "uglifyjs")
+PIPELINE_UGLIFYJS_BINARY = os.path.join(BASE_DIR, "node_modules", ".bin", "uglifyjs")
 
 # These are custom settings that are not part of pipeline
 APP_PIPELINE_OUTPUT_DIR = "pipeline"
