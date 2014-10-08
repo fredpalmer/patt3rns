@@ -14,13 +14,3 @@ RAVEN_CONFIG = {
 
 LOGGING["handlers"]["console"]["level"] = logging.INFO
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "project",
-        "USER": "user",
-        "PASSWORD": "password",
-        "HOST": DATABASE_PRIMARY_HOST,
-        "PORT": DATABASE_PRIMARY_PORT,
-    }
-}
