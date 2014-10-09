@@ -1,6 +1,5 @@
 import logging
 import os
-from django import template
 
 from django.apps import apps
 from django.conf import settings
@@ -8,10 +7,6 @@ from django.contrib.auth.decorators import user_passes_test, login_required
 from django.core.exceptions import ImproperlyConfigured
 from django.core.urlresolvers import reverse
 from django.db import models
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
-from django.template import TemplateDoesNotExist
-from django.template.loader import select_template
 from django.utils.decorators import method_decorator
 from django.utils.safestring import mark_safe
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView, DetailView, TemplateView, View
@@ -37,61 +32,78 @@ def can_view_design(user):
     return result
 
 
-@user_passes_test(can_view_design)
-def dispatch(request, view):
-    logger.debug("dispatch: view => %s, path => %s", view, request.path)
-    template_name = "{0}.html".format(view)
-
-    try:
+class DesignDispatchView(TemplateView):
+    """
+    Simple view for handling requests in the designer's playground
+    """
+    def get_template_names(self):
+        view = self.kwargs.get("view")
+        design_template_name = "{}.html".format(view)
         design_root_dirname = settings.DESIGNER_PLAYGROUND
         design_root_path = os.path.join(settings.TEMPLATE_DIRS[0], design_root_dirname)
-        templates = [os.path.join(design_root_dirname, template_name)]
+        templates = [os.path.join(design_root_dirname, design_template_name)]
         listing = sort_nicely(os.listdir(design_root_path))
         for entry in listing:
             if os.path.isdir(os.path.join(design_root_path, entry)):
-                templates.append(os.path.join(design_root_dirname, entry, template_name))
-        selected_template = select_template(templates)
-        response = render(request, selected_template.name, {"view": view, })
-    except TemplateDoesNotExist:
-        response = HttpResponseRedirect(reverse("design"))
+                templates.append(os.path.join(design_root_dirname, entry, design_template_name))
+        logger.debug("%s::get_template_names: path => %s, templates => %s", self.__class__.__name__, self.request.path, templates)
+        return templates
 
-    return response
+    def get_context_data(self, **kwargs):
+        return super(DesignDispatchView, self).get_context_data(**kwargs)
+
+    @method_decorator(user_passes_test(can_view_design))
+    def get(self, request, *args, **kwargs):
+        return super(DesignDispatchView, self).get(request, *args, **kwargs)
 
 
-@user_passes_test(can_view_design)
-def design(request):
+class DesignIndexView(TemplateView):
     """
-    Simple response to iterate through templates in the designer's playground
+    Simple view to iterate through templates in the designer's playground
     """
+    # noinspection PyUnresolvedReferences
+    template_name = os.path.join(settings.DESIGNER_PLAYGROUND, "_index.html")
 
-    def massage_label(label):
-        label = label.replace("-", " ").replace("_", " ")
-        label = label.title()
-        return label
+    def get_context_data(self, **kwargs):
+        context = super(DesignIndexView, self).get_context_data(**kwargs)
 
-    def get_link(current_filename):
-        current_filename, ext = os.path.splitext(current_filename)
-        label = massage_label(current_filename)
-        link = "<a href=\"{filename}/\" title=\"{label}\">{label}</a>".format(filename=current_filename, label=label)
-        return link
+        def massage_label(label):
+            label = label.replace("-", " ").replace("_", " ")
+            label = label.title()
+            return label
 
-    design_root_dirname = settings.DESIGNER_PLAYGROUND
-    design_root_path = os.path.join(settings.TEMPLATE_DIRS[0], design_root_dirname)
-    tree = []
-    for dir_path, dir_names, filenames in os.walk(design_root_path):
-        logger.debug("dir_path => %s, dir_names => %s, filenames => %s", dir_path, dir_names, filenames)
-        filenames.sort()
-        current_tree = []
-        for filename in filenames:
-            if not (filename.startswith(".") or filename.startswith("_")):
-                current_tree.append(mark_safe(get_link(filename)))
+        def get_link(current_filename, current_path=None):
+            current_filename, ext = os.path.splitext(current_filename)
+            label = massage_label(current_filename)
+            if current_path:
+                current_filename = os.path.join(current_path, current_filename)
+            link = "<a href=\"{filename}/\" title=\"{label}\">{label}</a>".format(filename=current_filename, label=label)
+            return link
 
-        dir_label = massage_label(os.path.basename(dir_path))
-        tree.append([mark_safe("<h1>{}</h1>".format(dir_label)), current_tree])
+        design_root_dirname = settings.DESIGNER_PLAYGROUND
+        design_root_path = os.path.join(settings.TEMPLATE_DIRS[0], design_root_dirname)
+        tree = []
+        for dir_path, dir_names, filenames in os.walk(design_root_path):
+            logger.debug("dir_path => %s, dir_names => %s, filenames => %s", dir_path, dir_names, filenames)
+            filenames.sort()
+            current_tree = []
+            for filename in filenames:
+                if not (filename.startswith(".") or filename.startswith("_")):
+                    base_dir_path = os.path.basename(dir_path)
+                    if base_dir_path == design_root_dirname:
+                        base_dir_path = None
+                    current_tree.append(mark_safe(get_link(filename, base_dir_path)))
 
-        logger.debug("%s indexed => %s", request.path, tree)
+            dir_label = massage_label(os.path.basename(dir_path))
+            tree.append([mark_safe("<h1>{}</h1>".format(dir_label)), current_tree])
 
-    return render(request, os.path.join(settings.DESIGNER_PLAYGROUND, "_index.html"), dict(tree=tree))
+        context["tree"] = tree
+        logger.debug("%s::get_context_data: path => %s, context => %s", self.__class__.__name__, self.request.path, context)
+        return context
+
+    @method_decorator(user_passes_test(can_view_design))
+    def get(self, request, *args, **kwargs):
+        return super(DesignIndexView, self).get(request, *args, **kwargs)
 
 
 class ScheduleView(TemplateView):

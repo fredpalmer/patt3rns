@@ -9,7 +9,7 @@ from django.views.generic import RedirectView
 
 from patt3rns.sitemap import ProjectSitemap
 from patt3rns.utils import URL_PATTERNS
-from patt3rns.views import DashboardView, ObjectCreateView, ObjectListView, ObjectUpdateView, ObjectDeleteView, ObjectDetailView, ScheduleView
+from patt3rns import views
 from portal.views import PortalView
 
 
@@ -52,13 +52,13 @@ urlpatterns = patterns(
     # Upload Handler
     # url(r"^(?P<app>\w+)/(?P<model>\w+(-\w+)*)/(?P<pk>\d+)/(?P<field>\w+)/$", "patt3rns.views.upload_handler", name="upload-handler"),
 
-    url(r"dashboard/", DashboardView.as_view(), name="dashboard"),
-    url(r"schedule/", ScheduleView.as_view(), name="schedule"),
-    url(r"^o/list/%(model)s/$" % URL_PATTERNS, ObjectListView.as_view(), name="object-list"),
-    url(r"^o/detail/%(model)s/%(pk)s/$" % URL_PATTERNS, ObjectDetailView.as_view(), name="object-detail"),
-    url(r"^o/create/%(model)s/$" % URL_PATTERNS, ObjectCreateView.as_view(), name="object-create"),
-    url(r"^o/update/%(model)s/%(pk)s/$" % URL_PATTERNS, ObjectUpdateView.as_view(), name="object-update"),
-    url(r"^o/delete/%(model)s/%(pk)s/$" % URL_PATTERNS, ObjectDeleteView.as_view(), name="object-delete"),
+    url(r"dashboard/", views.DashboardView.as_view(), name="dashboard"),
+    url(r"schedule/", views.ScheduleView.as_view(), name="schedule"),
+    url(r"^o/list/%(model)s/$" % URL_PATTERNS, views.ObjectListView.as_view(), name="object-list"),
+    url(r"^o/detail/%(model)s/%(pk)s/$" % URL_PATTERNS, views.ObjectDetailView.as_view(), name="object-detail"),
+    url(r"^o/create/%(model)s/$" % URL_PATTERNS, views.ObjectCreateView.as_view(), name="object-create"),
+    url(r"^o/update/%(model)s/%(pk)s/$" % URL_PATTERNS, views.ObjectUpdateView.as_view(), name="object-update"),
+    url(r"^o/delete/%(model)s/%(pk)s/$" % URL_PATTERNS, views.ObjectDeleteView.as_view(), name="object-delete"),
 
 
     (r"^sitemap\.xml$", "django.contrib.sitemaps.views.sitemap", {"sitemaps": sitemaps}),
@@ -71,8 +71,8 @@ urlpatterns = patterns(
 if settings.APP_ENV != "production":
     urlpatterns += patterns(
         "",
-        url(r"^design/$", "patt3rns.views.design", name="design"),
-        url(r"^design/(?P<view>.+)/$", "patt3rns.views.dispatch", name="design-dispatch"),
+        url(r"^design/$", views.DesignIndexView.as_view(), name="design"),
+        url(r"^design/(?P<view>.+)/$", views.DesignDispatchView.as_view(), name="design-dispatch"),
     )
 
 # Allows us to run without DEBUG locally and still get files from MEDIA_ROOT

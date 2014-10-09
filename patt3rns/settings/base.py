@@ -543,7 +543,7 @@ PIPELINE_JS = {
             "js/app.js",
             "moment/min/moment.min.js",
             "js/ajax-setup.js",
-            "aui/aui-min.js",
+            "js/aui/aui-min.js",
         ),
         "output_filename": os.path.join(APP_PIPELINE_JS_DIR, "base.js"),
     },
