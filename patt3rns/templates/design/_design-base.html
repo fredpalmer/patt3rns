@@ -1,3 +1,14 @@
 {% extends "design/base.html" %}
 {% load compressed %}
 {% block css %}{% compressed_css "design" %}{% endblock css %}
+
+{% block breadcrumbs %}
+    {% if crumbs %}
+        <ol class="breadcrumb">
+            {% for crumb in crumbs %}
+                <!-- {{ crumb.path }} => {{ crumb.label }} -->
+                <li {% if crumb.path == request.path %}class="active"{% endif %}><a href="/{{ crumb.path }}/">{{ crumb.label|title }}</a></li>
+            {% endfor %}
+        </ol>
+    {% endif %}
+{% endblock breadcrumbs %}

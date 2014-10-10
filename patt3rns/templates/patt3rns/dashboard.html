@@ -1,6 +1,9 @@
 {% extends "design/base.html" %}
 {% load webdesign i18n compressed %}
 
+{# Overriding this to put in an entirely different location based on the page's needs #}
+{% block messages %}{% endblock messages %}
+
 {% block content %}
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
@@ -25,6 +28,10 @@
             {#            </ul>#}
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            {# NOTE: override of messages previously - this adds it back to the dashboard #}
+            <div>
+                {% include "design/_messages.html" %}
+            </div>
             <h1 class="page-header">Dashboard</h1>
 
             <div class="row placeholders">

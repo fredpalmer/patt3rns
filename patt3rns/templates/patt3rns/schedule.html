@@ -1,60 +1,39 @@
 {% extends "base.html" %}
+{% load i18n staticfiles %}
+
 {% block js %}
     {{ block.super }}
+    <script src="{% static "js/aui-ext/schedule-event-recorder.js" %}"></script>
+    <script src="{% static "js/models/pattern.js" %}"></script>
+    <script type="text/html" id="pattern-template">
+        {% include "design/models/pattern.html" %}
+    </script>
     <script>
         $(document).ready(function () {
-
             YUI().use(
                     "aui-scheduler",
                     function (Y) {
-                        var events = [
-                            {#                        {#}
-                            {#                            content: "AllDay",#}
-                            {#                            endDate: new Date(2013, 1, 5, 23, 59),#}
-                            {#                            startDate: new Date(2013, 1, 5, 0)#}
-                            {#                        },#}
-                            {#                        {#}
-                            {#                            color: "#8D8",#}
-                            {#                            content: "Colorful",#}
-                            {#                            endDate: new Date(2013, 1, 6, 6),#}
-                            {#                            startDate: new Date(2013, 1, 6, 2)#}
-                            {#                        },#}
-                            {#                        {#}
-                            {#                            content: "MultipleDays",#}
-                            {#                            endDate: new Date(2013, 1, 8),#}
-                            {#                            startDate: new Date(2013, 1, 4)#}
-                            {#                        },#}
-                            {#                        {#}
-                            {#                            content: "Disabled",#}
-                            {#                            disabled: true,#}
-                            {#                            endDate: new Date(2013, 1, 8, 5),#}
-                            {#                            startDate: new Date(2013, 1, 8, 1)#}
-                            {#                        },#}
-                            {#                        {#}
-                            {#                            content: "Meeting",#}
-                            {#                            endDate: new Date(2013, 1, 7, 7),#}
-                            {#                            meeting: true,#}
-                            {#                            startDate: new Date(2013, 1, 7, 3)#}
-                            {#                        },#}
-                            {#                        {#}
-                            {#                            color: "#88D",#}
-                            {#                            content: "Overlap",#}
-                            {#                            endDate: new Date(2013, 1, 5, 4),#}
-                            {#                            startDate: new Date(2013, 1, 5, 1)#}
-                            {#                        },#}
-                            {#                        {#}
-                            {#                            content: "Reminder",#}
-                            {#                            endDate: new Date(2013, 1, 4, 4),#}
-                            {#                            reminder: true,#}
-                            {#                            startDate: new Date(2013, 1, 4, 0)#}
-                            {#                        }#}
-                        ];
+                        var events = [];
+
+                        initCustomScheduleEventRecorder($, Y);
 
                         var agendaView = new Y.SchedulerAgendaView();
                         var dayView = new Y.SchedulerDayView();
                         var eventRecorder = new Y.SchedulerEventRecorder();
                         var monthView = new Y.SchedulerMonthView();
                         var weekView = new Y.SchedulerWeekView();
+
+                        eventRecorder.on("save", function (e) {
+                            console.log("save", e);
+                        });
+
+                        eventRecorder.on("delete", function (e) {
+                            console.log("delete", e);
+                        });
+
+                        eventRecorder.on("edit", function (e) {
+                            console.log("edit", e);
+                        });
 
                         var scheduler = new Y.Scheduler({
                             activeView: monthView,
@@ -84,8 +63,7 @@
                                     console.log(index, val);
                                     var event = {
                                         content: val.participant.first_name + " " + val.participant.last_name + " " + val.action.description,
-                                        idAttribute: "uuid",
-                                        id: val.uuid,
+                                        id: val.id,
                                         reminder: true,
                                         // Formats here: http://alloyui.com/api/classes/A.DateParser.html
                                         startDate: moment(val.date_occurrence).toDate()
@@ -94,7 +72,7 @@
                                 });
                                 console.log("Adding the following events =>", events);
                                 scheduler.addEvents(events);
-                                scheduler.plotViewEvents(monthView);
+                                scheduler.syncEventsUI();
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
                                 console.log(textStatus, errorThrown);
@@ -108,8 +86,16 @@
     </script>
 {% endblock js %}
 {% block content %}
+    <div class="popover schedule-template" role="tooltip">
+        <div class="arrow"></div>
+        <h3 class="popover-title">New Event</h3>
+
+        <div class="popover-content"></div>
+    </div>
+
     <h1>Schedule <small class="title-details"></small></h1>
     <div>
         <div id="schedule"></div>
     </div>
+
 {% endblock content %}

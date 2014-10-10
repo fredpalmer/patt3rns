@@ -4,9 +4,11 @@ import os
 from django.apps import apps
 from django.conf import settings
 from django.contrib.auth.decorators import user_passes_test, login_required
+from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.http import HttpResponseRedirect
 from django.utils.decorators import method_decorator
 from django.utils.safestring import mark_safe
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView, DetailView, TemplateView, View
@@ -32,10 +34,34 @@ def can_view_design(user):
     return result
 
 
-class DesignDispatchView(TemplateView):
+class DesignBaseView(ContextMixin, View):
+    @method_decorator(user_passes_test(can_view_design))
+    def dispatch(self, request, *args, **kwargs):
+        return super(DesignBaseView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(DesignBaseView, self).get_context_data(**kwargs)
+        path = self.request.path
+        path = path.strip("/")
+        crumbs = path.split("/")
+        current = ""
+        for index in xrange(0, len(crumbs)):
+            label = crumbs[index]
+            current = os.path.join(current, crumbs[index])
+            crumbs[index] = dict(
+                path=current,
+                label=label,
+            )
+        context["crumbs"] = crumbs
+        logger.debug("%s:get_context_data => %s", self.__class__.__init__, crumbs)
+        return context
+
+
+class DesignDispatchView(DesignBaseView, TemplateView):
     """
     Simple view for handling requests in the designer's playground
     """
+
     def get_template_names(self):
         view = self.kwargs.get("view")
         design_template_name = "{}.html".format(view)
@@ -45,19 +71,72 @@ class DesignDispatchView(TemplateView):
         listing = sort_nicely(os.listdir(design_root_path))
         for entry in listing:
             if os.path.isdir(os.path.join(design_root_path, entry)):
-                templates.append(os.path.join(design_root_dirname, entry, design_template_name))
+                template = os.path.join(design_root_dirname, entry, design_template_name)
+                if template not in templates:
+                    templates.append(template)
         logger.debug("%s::get_template_names: path => %s, templates => %s", self.__class__.__name__, self.request.path, templates)
         return templates
 
-    def get_context_data(self, **kwargs):
-        return super(DesignDispatchView, self).get_context_data(**kwargs)
+
+class DesignModelView(CreateView, DesignBaseView):
+    """
+    Simple view for handling requests to model templates in the designer's playground
+    """
+    object = None
+    model = None
+
+    def get_template_names(self):
+        return [
+            os.path.join(settings.DESIGNER_PLAYGROUND, "{}.html".format(self.kwargs.get("view"))),
+            os.path.join(settings.DESIGNER_PLAYGROUND, "models", "_base.html"),
+        ]
+
+    def form_valid(self, form):
+        """
+        If the form is valid, save the associated model.
+        # NOTE: Overridden to block inadvertent saving
+        """
+        # self.object = form.save()
+        messages.add_message(self.request, messages.SUCCESS, "Form was valid - but not saved. This is for testing only.")
+        return HttpResponseRedirect(self.request.path)
+
+    def form_invalid(self, form):
+        """
+        If the form is valid, save the associated model.
+        # NOTE: Overridden to block inadvertent saving
+        """
+        # self.object = form.save()
+        messages.add_message(self.request, messages.ERROR, "Form was invalid - try again dingus.")
+        return super(DesignModelView, self).form_invalid(form)
 
     @method_decorator(user_passes_test(can_view_design))
-    def get(self, request, *args, **kwargs):
-        return super(DesignDispatchView, self).get(request, *args, **kwargs)
+    def dispatch(self, request, *args, **kwargs):
+        logger.debug("%s::dispatch path => %s", self.__class__.__name__, self.request.path)
+        model = os.path.basename(self.kwargs.get("view"))
+        for app_config in apps.get_app_configs():
+            try:
+                model_class = app_config.get_model(model)
+            except LookupError:
+                pass
+            else:
+                # noinspection PyAttributeOutsideInit
+                self.model = model_class
+                break
+
+        if not self.model:
+            raise ImproperlyConfigured("Could not find model => {}".format(model))
+        else:
+            logger.debug("Found model => %s for path => %s", self.model, self.request.path)
+
+        return super(DesignModelView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(DesignModelView, self).get_context_data(**kwargs)
+        logger.debug("%s::get_context_data: path => %s, context => %s", self.__class__.__name__, self.request.path, context)
+        return context
 
 
-class DesignIndexView(TemplateView):
+class DesignIndexView(DesignBaseView, TemplateView):
     """
     Simple view to iterate through templates in the designer's playground
     """
@@ -87,12 +166,24 @@ class DesignIndexView(TemplateView):
             logger.debug("dir_path => %s, dir_names => %s, filenames => %s", dir_path, dir_names, filenames)
             filenames.sort()
             current_tree = []
-            for filename in filenames:
-                if not (filename.startswith(".") or filename.startswith("_")):
-                    base_dir_path = os.path.basename(dir_path)
-                    if base_dir_path == design_root_dirname:
-                        base_dir_path = None
-                    current_tree.append(mark_safe(get_link(filename, base_dir_path)))
+            base_dir_path = os.path.basename(dir_path)
+
+            if base_dir_path != "models":
+                for filename in filenames:
+                    if not (filename.startswith(".") or filename.startswith("_")):
+                        if base_dir_path == design_root_dirname:
+                            base_dir_path = None
+                        current_tree.append(mark_safe(get_link(filename, base_dir_path)))
+            else:
+                for app_config in apps.get_app_configs():
+                    app_tree = []
+                    # Only get local app configs
+                    if settings.BASE_DIR in app_config.path:
+                        for model in app_config.get_models():
+                            app_tree.append(mark_safe(get_link(model.__name__.lower(), os.path.join(base_dir_path, app_config.name))))
+
+                        if len(app_tree):
+                            current_tree.append([mark_safe("<h1>{}</h1>".format(app_config.name)), app_tree])
 
             dir_label = massage_label(os.path.basename(dir_path))
             tree.append([mark_safe("<h1>{}</h1>".format(dir_label)), current_tree])
@@ -100,10 +191,6 @@ class DesignIndexView(TemplateView):
         context["tree"] = tree
         logger.debug("%s::get_context_data: path => %s, context => %s", self.__class__.__name__, self.request.path, context)
         return context
-
-    @method_decorator(user_passes_test(can_view_design))
-    def get(self, request, *args, **kwargs):
-        return super(DesignIndexView, self).get(request, *args, **kwargs)
 
 
 class ScheduleView(TemplateView):

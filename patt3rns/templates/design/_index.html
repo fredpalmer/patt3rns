@@ -1,4 +1,21 @@
 {% extends "design/_design-base.html" %}
+{% block css %}
+    {{ block.super }}
+    <style>
+        .list-unstyled {
+            padding-left: 20px;
+        }
+    </style>
+{% endblock css %}
+{% block js %}
+    {{ block.super }}
+    <script>
+        $(document).ready(function () {
+            $("ul").addClass("list-unstyled");
+        });
+    </script>
+{% endblock js %}
+
 {% comment %} This is simply an index for all the designs - no styling necessary here!!! {% endcomment %}
 {% block content %}
     <div class="jumbotron">

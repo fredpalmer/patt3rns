@@ -72,6 +72,7 @@ if settings.APP_ENV != "production":
     urlpatterns += patterns(
         "",
         url(r"^design/$", views.DesignIndexView.as_view(), name="design"),
+        url(r"^design/(?P<view>models/.+)/$", views.DesignModelView.as_view(), name="design-model"),
         url(r"^design/(?P<view>.+)/$", views.DesignDispatchView.as_view(), name="design-dispatch"),
     )
 

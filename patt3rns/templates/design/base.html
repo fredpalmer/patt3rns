@@ -83,6 +83,7 @@
     {% endblock nav %}
 
     <div class="{% block container-class %}container{% endblock container-class %}" role="main">
+        {% block breadcrumbs %}{% endblock breadcrumbs %}
         {% block messages %}
             <div>
                 {% include "design/_messages.html" %}
@@ -91,12 +92,6 @@
         {% block content %}
             <div class="jumbotron">
                 <h1>{{ request.path }}</h1>
-                <blockquote>
-                    {% lorem 1 p random %}
-                </blockquote>
-                <blockquote>
-                    {% lorem 1 p random %}
-                </blockquote>
                 <blockquote>
                     {% lorem 1 p random %}
                 </blockquote>

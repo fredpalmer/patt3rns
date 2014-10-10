@@ -1,0 +1,18 @@
+{% extends request.is_ajax|yesno:"design/models/_base-empty.html,design/_design-base.html" %}
+{% load i18n patt3rns_tags %}
+
+{% block content %}
+    {% if "/design/" in request.path %}
+        <div class="panel">
+            <h1>{{ form|object_type }} <small>{{ request.path }}</small></h1>
+            <div class="well ">
+                <small>
+                    <samp>
+                        <xmp>{% pretty %}{% include "forms/form.html" %}{% endpretty %}</xmp>
+                    </samp>
+                </small>
+            </div>
+        </div>
+    {% endif %}
+    {% include "forms/form.html" %}
+{% endblock content %}

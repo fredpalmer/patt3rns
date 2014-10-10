@@ -19,6 +19,8 @@ psycopg2>=2.5.1
 static>=0.4
 wsgiref>=0.1.2
 
+beautifulsoup4>=4.3.2
+
 # Other goodies
 # MySQL-python>=1.2.5                     # Database library used to communicate with MySQL
 # django-filter>=0.7                      # Used in conjunction with Django Rest Framework for providing more restrictive API filtering

@@ -1,9 +1,13 @@
 import logging
+import re
 import types
+
+from bs4 import BeautifulSoup
+import bs4
 
 from django import forms
 from django import template
-from django.template import defaultfilters
+from django.template import defaultfilters, Node
 from django.forms.forms import BoundField
 
 logger = logging.getLogger(__name__)
@@ -125,4 +129,30 @@ def add_class(form_or_field, klass_name):
 
     return form_or_field
 
+
+orig_prettify = bs4.BeautifulSoup.prettify
+r = re.compile(r'^(\s*)', re.MULTILINE)
+
+
+def prettify(self, encoding=None, formatter="minimal", indent_width=4):
+    return r.sub(r"\1" * indent_width, orig_prettify(self, encoding, formatter))
+
+
+bs4.BeautifulSoup.prettify = prettify
+
+
+class PrettyPrintNode(Node):
+    def __init__(self, nodelist):
+        self.nodelist = nodelist
+
+    def render(self, context):
+        html = BeautifulSoup(self.nodelist.render(context))
+        return html.prettify()
+
+
+@register.tag()
+def pretty(parser, token):
+    nodelist = parser.parse(("endpretty",))
+    parser.delete_first_token()
+    return PrettyPrintNode(nodelist)
 
