@@ -4,6 +4,7 @@ from fabric import api
 from fabric.api import env, local
 from fabric import context_managers
 from fabric.decorators import task
+# noinspection PyProtectedMember
 from fabric.operations import _prefix_commands, _prefix_env_vars
 
 PROJECT_DIR = os.path.dirname(__file__)

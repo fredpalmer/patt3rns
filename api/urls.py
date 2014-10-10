@@ -1,8 +1,8 @@
 from django.conf.urls import url, include, patterns
-from rest_framework.urlpatterns import format_suffix_patterns
+from rest_framework.routers import DefaultRouter
+
 from api import views
 
-from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register(r"pattern", views.PatternViewSet)

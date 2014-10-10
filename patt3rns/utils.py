@@ -23,6 +23,7 @@ URL_PATTERNS = {
     "subsection": ur"(?P<subsection>%s)" % _SLUG,
 }
 
+
 def sort_nicely(sortable):
     """ Sort the given list in the way that humans expect """
 

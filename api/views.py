@@ -1,12 +1,7 @@
-from patt3rns.models import Pattern, Participant, Action
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import permissions, serializers, generics, mixins, status, viewsets
+from rest_framework import serializers, viewsets
 
+from organization import models as organization_models
 
-# class PatternList(generics.ListCreateAPIView):
-# permission_classes = (permissions.IsAuthenticated, )
-#     queryset = Pattern.objects.all()
 
 class BaseMeta(object):
     exclude = ("uuid", "date_created", "date_modified", )
@@ -14,12 +9,12 @@ class BaseMeta(object):
 
 class ActionSerializer(serializers.ModelSerializer):
     class Meta(BaseMeta):
-        model = Action
+        model = organization_models.Action
 
 
 class ParticipantSerializer(serializers.ModelSerializer):
     class Meta(BaseMeta):
-        model = Participant
+        model = organization_models.Participant
 
 
 class PatternModelSerializer(serializers.ModelSerializer):
@@ -27,13 +22,13 @@ class PatternModelSerializer(serializers.ModelSerializer):
     action = ActionSerializer()
 
     class Meta(BaseMeta):
-        model = Pattern
+        model = organization_models.Pattern
         # fields = ()
         depth = 2
         exclude = ("edited_by", "uuid", "date_created", "date_modified", )
 
 
 class PatternViewSet(viewsets.ModelViewSet):
-    model = Pattern
+    model = organization_models.Pattern
     serializer_class = PatternModelSerializer
     # queryset = Pattern.objects.all()

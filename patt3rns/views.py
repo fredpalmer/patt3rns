@@ -239,6 +239,8 @@ class GenericSingleObjectTemplateResponseMixin(SingleObjectTemplateResponseMixin
             # noinspection PyProtectedMember
             template_names.append("{}/{}{}.html".format(self.model._meta.app_label, "object", self.template_name_suffix))
 
+        template_names.append("{}/{}{}.html".format(settings.REPO_NAME, "object", self.template_name_suffix))
+
         logger.debug("%s::get_template_names => %s", self.__class__.__name__, template_names)
         return template_names
 
@@ -294,12 +296,13 @@ class ObjectListView(SingleObjectViewBase, ListView):
         """
         Return a list of template names to be used for the request.
         """
-        templates_names = super(ObjectListView, self).get_template_names()
+        template_names = super(ObjectListView, self).get_template_names()
         if hasattr(self.object_list, "model"):
             # noinspection PyProtectedMember
             opts = self.object_list.model._meta
-            templates_names.append("{}/{}{}.html".format(opts.app_label, "object", self.template_name_suffix))
-        return templates_names
+            template_names.append("{}/{}{}.html".format(opts.app_label, "object", self.template_name_suffix))
+            template_names.append("{}/{}{}.html".format(settings.REPO_NAME, "object", self.template_name_suffix))
+        return template_names
 
 
 class ObjectDetailView(GenericSingleObjectTemplateResponseMixin, SingleObjectViewBase, DetailView):

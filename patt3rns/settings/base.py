@@ -141,7 +141,7 @@ DATABASES = {
 if os.environ.get("DATABASE_URL"):
     # Parse database configuration from $DATABASE_URL
     import dj_database_url
-    DATABASES["default"] =  dj_database_url.config()
+    DATABASES["default"] = dj_database_url.config()
 
 DATABASE_PRIMARY_HOST = None
 DATABASE_PRIMARY_PORT = None
@@ -307,6 +307,7 @@ INSTALLED_APPS = (
     # "gunicorn",
     "patt3rns",
     "portal",
+    "organization",
     # "raven.contrib.django.raven_compat",
     "pipeline",
     "rest_framework",
@@ -483,6 +484,7 @@ SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 
 # region django-pipeline settings
 
+# noinspection PyUnresolvedReferences
 PIPELINE_YUGLIFY_BINARY = os.path.join(BASE_DIR, "node_modules", ".bin", "yuglify")
 PIPELINE_JS_COMPRESSOR = "pipeline.compressors.uglifyjs.UglifyJSCompressor"
 PIPELINE_UGLIFYJS_BINARY = os.path.join(BASE_DIR, "node_modules", ".bin", "uglifyjs")

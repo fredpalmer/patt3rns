@@ -5,13 +5,12 @@ from .fields import (
     TimeField,
 )
 
+from .forms import (
+    ModelFormMetaBase,
+)
+
 from .widgets import (
     DateInput,
     DateTimeInput,
     TimeInput,
-)
-
-from .forms import (
-    ModelFormMetaBase,
-    # PatternModelForm,
 )

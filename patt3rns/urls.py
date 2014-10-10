@@ -35,6 +35,9 @@ urlpatterns = patterns(
     # Api
     (r"api/", include("api.urls")),
 
+    # Organization
+    (r"org/", include("organization.urls")),
+
     # Admin
     # (r"^grappelli/", include("grappelli.urls")),
     url(r"^manage/admin/doc/", include("django.contrib.admindocs.urls")),

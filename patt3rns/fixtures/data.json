@@ -44,7 +44,7 @@
             "description": "urinated in bed",
             "uuid": "62f85e91-4f24-11e4-a561-b8e856493b62"
         },
-        "model": "patt3rns.action",
+        "model": "organization.action",
         "pk": 1
     },
     {
@@ -57,7 +57,7 @@
             "last_name": "Morgan",
             "uuid": "56634802-4f24-11e4-9be5-b8e856493b62"
         },
-        "model": "patt3rns.participant",
+        "model": "organization.participant",
         "pk": 1
     },
     {
@@ -70,7 +70,7 @@
             "last_name": "Morgan",
             "uuid": "5dea6473-4f24-11e4-b84b-b8e856493b62"
         },
-        "model": "patt3rns.participant",
+        "model": "organization.participant",
         "pk": 2
     },
     {
@@ -85,7 +85,7 @@
             "time_occurrence": null,
             "uuid": "71fd4080-4f24-11e4-82bb-b8e856493b62"
         },
-        "model": "patt3rns.pattern",
+        "model": "organization.pattern",
         "pk": 1
     }
 ]

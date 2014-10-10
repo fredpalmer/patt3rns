@@ -1,7 +1,6 @@
 import json
 
-from django.conf import settings
-from django.contrib.contenttypes.generic import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.generic import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -114,38 +113,3 @@ class Metadata(BaseModel):
             content_type=self.content_type.name,
             object_id=self.object_id,
         ))
-
-
-class Action(BaseModel):
-    description = patt3rns_fields.CharField(max_length=255, help_text=u"Should be in the form of <em>verb</em> or <em>verb at noun</em>, e.g.: <strong><em>jumped into the leaves</em></strong>")
-
-    def __unicode__(self):
-        return self.description
-
-
-# TODO: should add auditing (e.g. reversion)
-class Participant(BaseModel):
-    first_name = patt3rns_fields.CharField(max_length=255)
-    last_name = patt3rns_fields.CharField(max_length=255)
-    date_born = patt3rns_fields.DateField(blank=True, null=True)
-    metadata = GenericRelation(Metadata)
-    image = patt3rns_fields.ImageField(blank=True, null=True)
-    # created_by = models.ForeignKey(settings.AUTH_USER_MODEL)
-    # edited_by = models.ForeignKey(settings.AUTH_USER_MODEL)
-
-    def __unicode__(self):
-        return u"{} {}".format(self.first_name, self.last_name)
-
-
-# TODO: should add auditing (e.g. reversion)
-class Pattern(BaseModel):
-    edited_by = models.ForeignKey(settings.AUTH_USER_MODEL)
-    notes = patt3rns_fields.TextField(blank=True)
-    date_occurrence = patt3rns_fields.DateField(db_index=True)
-    time_occurrence = patt3rns_fields.TimeField(null=True, blank=True)
-    participant = models.ForeignKey(Participant)
-    action = models.ForeignKey(Action)
-
-    def __unicode__(self):
-        return u"the instance where {} {} on {}".format(self.participant, self.action, self.date_occurrence)
-
