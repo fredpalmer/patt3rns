@@ -13,7 +13,7 @@ function initCustomScheduleEventRecorder($, A) {
 
         _serialize = A.IO.prototype._serialize,
 
-        isNodeList = function (v) {
+        isNodeList = function(v) {
             return (v instanceof A.NodeList);
         },
 
@@ -142,7 +142,7 @@ function initCustomScheduleEventRecorder($, A) {
              */
             strings: {
                 value: {},
-                setter: function (val) {
+                setter: function(val) {
                     return A.merge({
                             'delete': 'Delete',
                             'description-hint': 'e.g., Dinner at Brian\'s',
@@ -198,7 +198,7 @@ function initCustomScheduleEventRecorder($, A) {
              * @method initializer
              * @protected
              */
-            initializer: function () {
+            initializer: function() {
                 console.log("testing");
                 var instance = this;
 
@@ -234,7 +234,7 @@ function initCustomScheduleEventRecorder($, A) {
              * @method getContentNode
              * @return {Node} The content `Node` reference.
              */
-            getContentNode: function () {
+            getContentNode: function() {
                 var instance = this;
                 var popoverBB = instance.popover.get("boundingBox");
 
@@ -249,7 +249,7 @@ function initCustomScheduleEventRecorder($, A) {
              * @return {String} Formated date including start and end hours if the
              *     event is not `allDay`.
              */
-            getFormattedDate: function () {
+            getFormattedDate: function() {
                 var instance = this,
                     evt = (instance.get('event') || instance),
                     endDate = evt.get('endDate'),
@@ -275,7 +275,7 @@ function initCustomScheduleEventRecorder($, A) {
              * @return {Object} Copy of this events `content`, `date`, `endDate` and
              *     `startDate`.
              */
-            getTemplateData: function () {
+            getTemplateData: function() {
                 var instance = this,
                     strings = instance.get('strings'),
                     evt = instance.get('event') || instance,
@@ -301,7 +301,7 @@ function initCustomScheduleEventRecorder($, A) {
              * @param {Object} optAttrMap (optional) Attributes map.
              * @return {Object} schedulerEvent (optional) Attributes map.
              */
-            getUpdatedSchedulerEvent: function (optAttrMap) {
+            getUpdatedSchedulerEvent: function(optAttrMap) {
                 var instance = this,
                     schedulerEvent = instance.get('event'),
                     options = {
@@ -326,7 +326,7 @@ function initCustomScheduleEventRecorder($, A) {
              *
              * @method hidePopover
              */
-            hidePopover: function () {
+            hidePopover: function() {
                 console.group("hidePopover", arguments);
                 var instance = this;
                 if (instance.currentPopover) {
@@ -341,7 +341,7 @@ function initCustomScheduleEventRecorder($, A) {
              *
              * @method populateForm
              */
-            populateForm: function () {
+            populateForm: function() {
                 var instance = this,
                     bodyTemplate = instance.get("bodyTemplate"),
                     headerTemplate = instance.get("headerTemplate"),
@@ -359,7 +359,7 @@ function initCustomScheduleEventRecorder($, A) {
              * @method serializeForm
              * @return {String} A stringified copy of this event recorder's form.
              */
-            serializeForm: function () {
+            serializeForm: function() {
                 var instance = this;
                 return A.QueryString.parse(_serialize(instance.formNode.getDOM()));
             },
@@ -369,7 +369,7 @@ function initCustomScheduleEventRecorder($, A) {
              *
              * @method showPopover
              */
-            showPopover: function (node) {
+            showPopover: function(node) {
                 console.group("showPopover", arguments);
                 var instance = this, event = instance.get("event");
 
@@ -396,9 +396,9 @@ function initCustomScheduleEventRecorder($, A) {
                 var offset = $element.offset();
                 console.log("Area to attach popover offset =>", offset);
                 instance.currentPopover = $element.popover({
-                    delay: {"show": 0, "hide": 100},
+                    delay: { "show": 0, "hide": 100 },
                     html: true,
-                    placement: offset.left < 200 ? "right": "left",
+                    placement: offset.left < 200 ? "right" : "left",
                     title: "Event",
                     trigger: "manual",
                     container: "body",
@@ -419,7 +419,7 @@ function initCustomScheduleEventRecorder($, A) {
              * @param {EventFacade} event
              * @protected
              */
-            _afterEventChange: function () {
+            _afterEventChange: function() {
                 var instance = this;
 
                 instance.populateForm();
@@ -432,7 +432,7 @@ function initCustomScheduleEventRecorder($, A) {
              * @param {EventFacade} event
              * @protected
              */
-            _afterPopoverVisibleChange: function (event) {
+            _afterPopoverVisibleChange: function(event) {
                 var instance = this;
 
                 if (event.newVal) {
@@ -442,7 +442,7 @@ function initCustomScheduleEventRecorder($, A) {
                         var contentNode = instance.getContentNode();
 
                         if (contentNode) {
-                            setTimeout(function () {
+                            setTimeout(function() {
                                 contentNode.selectText();
                             }, 0);
                         }
@@ -464,13 +464,13 @@ function initCustomScheduleEventRecorder($, A) {
              * @param {EventFacade} event
              * @protected
              */
-            _afterSchedulerChange: function (event) {
+            _afterSchedulerChange: function(event) {
                 var instance = this;
                 var scheduler = event.newVal;
                 var schedulerBB = scheduler.get('boundingBox');
 
                 schedulerBB.delegate('click', A.bind(instance._onClickSchedulerEvent, instance), '.' +
-                CSS_SCHEDULER_EVENT);
+                    CSS_SCHEDULER_EVENT);
             },
 
             /**
@@ -480,7 +480,7 @@ function initCustomScheduleEventRecorder($, A) {
              * @param {EventFacade} event
              * @protected
              */
-            _defCancelEventFn: function () {
+            _defCancelEventFn: function() {
                 var instance = this;
 
                 instance.get("node").remove();
@@ -495,7 +495,7 @@ function initCustomScheduleEventRecorder($, A) {
              * @param {EventFacade} event
              * @protected
              */
-            _defDeleteEventFn: function () {
+            _defDeleteEventFn: function() {
                 var instance = this;
                 var scheduler = instance.get("scheduler");
 
@@ -513,7 +513,7 @@ function initCustomScheduleEventRecorder($, A) {
              * @param {EventFacade} event
              * @protected
              */
-            _defEditEventFn: function () {
+            _defEditEventFn: function() {
                 var instance = this;
                 var scheduler = instance.get("scheduler");
 
@@ -529,7 +529,7 @@ function initCustomScheduleEventRecorder($, A) {
              * @param {EventFacade} event
              * @protected
              */
-            _defSaveEventFn: function (event) {
+            _defSaveEventFn: function(event) {
                 var instance = this;
                 var scheduler = instance.get("scheduler");
 
@@ -547,7 +547,7 @@ function initCustomScheduleEventRecorder($, A) {
              * @protected
              * @return {Array} Footer toolbar
              */
-            _getFooterToolbar: function () {
+            _getFooterToolbar: function() {
                 var instance = this,
                     event = instance.get('event'),
                     strings = instance.get('strings'),
@@ -585,7 +585,7 @@ function initCustomScheduleEventRecorder($, A) {
              * @param {EventFacade} event
              * @protected
              */
-            _handleCancelEvent: function (event) {
+            _handleCancelEvent: function(event) {
                 var instance = this;
 
                 instance.fire('cancel');
@@ -604,7 +604,7 @@ function initCustomScheduleEventRecorder($, A) {
              * @param {EventFacade} event
              * @protected
              */
-            _handleClickOutSide: function () {
+            _handleClickOutSide: function() {
                 var instance = this;
 
                 instance.fire('cancel');
@@ -617,7 +617,7 @@ function initCustomScheduleEventRecorder($, A) {
              * @param {EventFacade} event
              * @protected
              */
-            _handleDeleteEvent: function (event) {
+            _handleDeleteEvent: function(event) {
                 var instance = this;
 
                 instance.fire('delete', {
@@ -638,7 +638,7 @@ function initCustomScheduleEventRecorder($, A) {
              * @param {EventFacade} event
              * @protected
              */
-            _handleEscapeEvent: function (event) {
+            _handleEscapeEvent: function(event) {
                 var instance = this;
 
                 if (instance.popover.get("rendered") && (event.keyCode === A.Event.KeyMap.ESC)) {
@@ -655,7 +655,7 @@ function initCustomScheduleEventRecorder($, A) {
              * @param {EventFacade} event
              * @protected
              */
-            _handleSaveEvent: function (event) {
+            _handleSaveEvent: function(event) {
                 var instance = this,
                     eventName = instance.get("event") ? "edit" : "save";
 
@@ -677,7 +677,7 @@ function initCustomScheduleEventRecorder($, A) {
              * @param {EventFacade} event
              * @protected
              */
-            _onClickSchedulerEvent: function (event) {
+            _onClickSchedulerEvent: function(event) {
                 var instance = this;
                 var evt = event.currentTarget.getData("scheduler-event");
 
@@ -699,7 +699,7 @@ function initCustomScheduleEventRecorder($, A) {
              * @param {EventFacade} event
              * @protected
              */
-            _onSubmitForm: function (event) {
+            _onSubmitForm: function(event) {
                 var instance = this;
 
                 instance._handleSaveEvent(event);
@@ -711,7 +711,7 @@ function initCustomScheduleEventRecorder($, A) {
              * @method _renderPopover
              * @protected
              */
-            _renderPopover: function () {
+            _renderPopover: function() {
                 var instance = this,
                     scheduler = instance.get("scheduler"),
                     schedulerBB = scheduler.get("boundingBox");
@@ -738,7 +738,7 @@ function initCustomScheduleEventRecorder($, A) {
              * @return {Object} The new `popover` value merged some default popover
              *     configuration properties.
              */
-            _setPopover: function (val) {
+            _setPopover: function(val) {
                 var instance = this;
                 return val;
                 //return A.merge({

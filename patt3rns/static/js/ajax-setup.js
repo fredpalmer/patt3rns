@@ -1,4 +1,4 @@
-(function ($) {
+(function($) {
     function getCookie(name) {
         var cookieValue = null;
         if (document.cookie && document.cookie != "") {
@@ -22,7 +22,7 @@
     }
 
     $.ajaxSetup({
-        beforeSend: function (xhr, settings) {
+        beforeSend: function(xhr, settings) {
             if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
                 var csrftoken = getCookie("csrftoken");
                 xhr.setRequestHeader("X-CSRFToken", csrftoken);

@@ -1,6 +1,6 @@
 {% extends "design/base.html" %}
-{% load compressed %}
-{% block css %}{% compressed_css "design" %}{% endblock css %}
+{% load pipeline %}
+{% block css %}{% stylesheet "design" %}{% endblock css %}
 
 {% block breadcrumbs %}
     {% if crumbs %}

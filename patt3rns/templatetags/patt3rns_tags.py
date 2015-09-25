@@ -1,12 +1,11 @@
+# coding=utf-8
+from __future__ import unicode_literals
 import logging
 import re
 import types
 
-from bs4 import BeautifulSoup
 import bs4
-
-from django import forms
-from django import template
+from django import forms, template
 from django.template import defaultfilters, Node
 from django.forms.forms import BoundField
 
@@ -146,7 +145,7 @@ class PrettyPrintNode(Node):
         self.nodelist = nodelist
 
     def render(self, context):
-        html = BeautifulSoup(self.nodelist.render(context))
+        html = bs4.BeautifulSoup(self.nodelist.render(context))
         return html.prettify()
 
 
@@ -155,4 +154,3 @@ def pretty(parser, token):
     nodelist = parser.parse(("endpretty",))
     parser.delete_first_token()
     return PrettyPrintNode(nodelist)
-

@@ -1,5 +1,5 @@
 # coding=utf-8
-import ConfigParser
+from __future__ import unicode_literals
 from inspect import getsourcefile
 import socket
 import os
@@ -16,9 +16,9 @@ EMAIL_ADDRESSES = {
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    ".{}".format(DOMAIN),   # Allow domain and subdomains
+    ".{}".format(DOMAIN),  # Allow domain and subdomains
     ".{}.".format(DOMAIN),  # Also allow FQDN and subdomains
-    ".elb.amazonaws.com",   # Allow domain and subdomains for AWS ELB
+    ".elb.amazonaws.com",  # Allow domain and subdomains for AWS ELB
     ".elb.amazonaws.com.",  # Allow domain and subdomains for AWS ELB
 ]
 
@@ -30,7 +30,6 @@ REPO_NAME = os.path.basename(BASE_DIR)
 PROJECT_ROOT_APP_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 
 DEBUG = False
-TEMPLATE_DEBUG = DEBUG
 
 EMAIL_HOST = "localhost"
 EMAIL_PORT = 1025
@@ -50,33 +49,33 @@ DATETIME_FORMAT = "Y-m-d H:i:s O"
 # SHORT_DATETIME_FORMAT
 TIME_INPUT_FORMATS = (
     "%H:%M:%S",  # "14:30:59"
-    "%H:%M",     # "14:30"
-    "%I:%M%p",   # "2:30PM"
+    "%H:%M",  # "14:30"
+    "%I:%M%p",  # "2:30PM"
     "%I:%M %p",  # "2:30 PM"
 )
 
 DATETIME_INPUT_FORMATS = (
-    "%Y-%m-%d %H:%M:%S",        # "2006-10-25 14:30:59"
-    "%Y-%m-%d %H:%M:%S.%f",     # "2006-10-25 14:30:59.000200"
-    "%Y-%m-%d %H:%M",           # "2006-10-25 14:30"
-    "%Y-%m-%d %I:%M %p",        # "2006-10-25 4:30 PM"
-    "%Y-%m-%d %I:%M%p",         # "2006-10-25 4:30PM"
-    "%Y-%m-%d",                 # "2006-10-25"
-    "%m/%d/%Y %H:%M:%S",        # "10/25/2006 14:30:59"
-    "%m/%d/%Y %I:%M:%S %p",     # "10/25/2006 4:30:59 PM"
-    "%m/%d/%Y %I:%M:%S%p",      # "10/25/2006 4:30:59PM"
-    "%m/%d/%Y %H:%M:%S.%f",     # "10/25/2006 14:30:59.000200"
-    "%m/%d/%Y %H:%M",           # "10/25/2006 14:30"
-    "%m/%d/%Y %I:%M %p",        # "10/25/2006 4:30 PM"
-    "%m/%d/%Y %I:%M%p",         # "10/25/2006 4:30PM"
-    "%m/%d/%Y",                 # "10/25/2006"
-    "%m/%d/%y %H:%M:%S",        # "10/25/06 14:30:59"
-    "%m/%d/%y %H:%M:%S.%f",     # "10/25/06 14:30:59.000200"
-    "%m/%d/%y %H:%M",           # "10/25/06 14:30"
-    "%m/%d/%y",                 # "10/25/06"
-    "%Y-%m-%dT%H:%M:%S.%f",     # "2013-06-16T19:30:23.703"  Added to support HTML5 datetime-local input type
-    "%Y-%m-%dT%H:%M:%S",        # "2013-06-16T19:30:23"  Added to support HTML5 datetime-local input type
-    "%Y-%m-%dT%H:%M",           # "2013-06-16T19:30"  Added to support HTML5 datetime-local input type
+    "%Y-%m-%d %H:%M:%S",  # "2006-10-25 14:30:59"
+    "%Y-%m-%d %H:%M:%S.%f",  # "2006-10-25 14:30:59.000200"
+    "%Y-%m-%d %H:%M",  # "2006-10-25 14:30"
+    "%Y-%m-%d %I:%M %p",  # "2006-10-25 4:30 PM"
+    "%Y-%m-%d %I:%M%p",  # "2006-10-25 4:30PM"
+    "%Y-%m-%d",  # "2006-10-25"
+    "%m/%d/%Y %H:%M:%S",  # "10/25/2006 14:30:59"
+    "%m/%d/%Y %I:%M:%S %p",  # "10/25/2006 4:30:59 PM"
+    "%m/%d/%Y %I:%M:%S%p",  # "10/25/2006 4:30:59PM"
+    "%m/%d/%Y %H:%M:%S.%f",  # "10/25/2006 14:30:59.000200"
+    "%m/%d/%Y %H:%M",  # "10/25/2006 14:30"
+    "%m/%d/%Y %I:%M %p",  # "10/25/2006 4:30 PM"
+    "%m/%d/%Y %I:%M%p",  # "10/25/2006 4:30PM"
+    "%m/%d/%Y",  # "10/25/2006"
+    "%m/%d/%y %H:%M:%S",  # "10/25/06 14:30:59"
+    "%m/%d/%y %H:%M:%S.%f",  # "10/25/06 14:30:59.000200"
+    "%m/%d/%y %H:%M",  # "10/25/06 14:30"
+    "%m/%d/%y",  # "10/25/06"
+    "%Y-%m-%dT%H:%M:%S.%f",  # "2013-06-16T19:30:23.703"  Added to support HTML5 datetime-local input type
+    "%Y-%m-%dT%H:%M:%S",  # "2013-06-16T19:30:23"  Added to support HTML5 datetime-local input type
+    "%Y-%m-%dT%H:%M",  # "2013-06-16T19:30"  Added to support HTML5 datetime-local input type
 )
 
 # Local time zone for this installation. Choices can be found here:
@@ -129,7 +128,6 @@ STATIC_URL = "/m/"
 # a build process one would simply get the sha of the current revision being built
 STATIC_FILES_VERSION = "EATDEADBEEF"
 
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -141,45 +139,14 @@ DATABASES = {
 if os.environ.get("DATABASE_URL"):
     # Parse database configuration from $DATABASE_URL
     import dj_database_url
+
     DATABASES["default"] = dj_database_url.config()
-
-DATABASE_PRIMARY_HOST = None
-DATABASE_PRIMARY_PORT = None
-STATIC_ASSETS_BUCKET = None
-STATIC_ASSETS_CDN = None
-USER_ASSETS_BUCKET = None
-USER_ASSETS_CDN = None
-CACHE_CLUSTER_HOST = None
-CACHE_CLUSTER_PORT = None
-
-# App config parsing.  This should either be a build artifact and/or be discoverable after a deployment.  This would be
-# where all secrets should come from (rather than storing them in source code)
-config_file = os.path.join(BASE_DIR, "app.cfg")
-if os.path.exists(config_file):
-    config = ConfigParser.RawConfigParser()
-    config.read(config_file)
-
-    STATIC_FILES_VERSION = config.get("App", "version")
-    DATABASE_PRIMARY_HOST = config.get("App", "DatabaseHost")
-    DATABASE_PRIMARY_PORT = config.get("App", "DatabasePort")
-    STATIC_ASSETS_BUCKET = config.get("App", "StaticAssetsBucket")
-    STATIC_ASSETS_CDN = config.get("App", "StaticAssetsCDN")
-    USER_ASSETS_BUCKET = config.get("App", "UserAssetsBucket")
-    USER_ASSETS_CDN = config.get("App", "UserAssetsCDN")
-    CACHE_CLUSTER_HOST = config.get("App", "CacheClusterHost")
-    CACHE_CLUSTER_PORT = config.get("App", "CacheClusterPort")
-    AWS_STATIC_BUCKET_NAME = STATIC_ASSETS_BUCKET
-    AWS_STORAGE_BUCKET_NAME = USER_ASSETS_BUCKET
-    AWS_STATIC_LOCATION = STATIC_FILES_VERSION
-    STATIC_URL = "https://%s/%s/" % (STATIC_ASSETS_CDN, AWS_STATIC_LOCATION)
-    MEDIA_URL = "https://%s/" % USER_ASSETS_CDN
 
 # The list of finder backends that know how to find static files in various locations.
 # The default will find files stored in the STATICFILES_DIRS setting (using django.contrib.staticfiles.finders.FileSystemFinder)
 # and in a static subdirectory of each app (using django.contrib.staticfiles.finders.AppDirectoriesFinder).
 # If multiple files with the same name are present, the first file that is found will be used.
 STATICFILES_FINDERS = (
-    # Needs to come first according to grappelli documentation
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "pipeline.finders.AppDirectoriesFinder",
@@ -195,74 +162,37 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "lib", "bower_components"),
 )
 
-# The file storage engine to use when collecting static files with the collectstatic management command.
-# STATICFILES_STORAGE = "patt3rns.storage.RemoteStaticStorage"
-
-# Settings for django-storages (and boto)
-# http://django-storages.readthedocs.org/
-# DEFAULT_FILE_STORAGE = "patt3rns.storage.RemoteStorage"
-# THUMBNAIL_DEFAULT_STORAGE = DEFAULT_FILE_STORAGE
-THUMBNAIL_CACHE_DIMENSIONS = True  # Less chatty with AWS for thumbnail dimensions and simply hits a database table
-AWS_IS_GZIPPED = True
-# We deploy versioned content at this time so in order to leverage browser caching effectively the recommended header(s) to apply to content
-# https://developers.google.com/speed/docs/insights/LeverageBrowserCaching
-AWS_HEADERS = {
-    "Cache-Control": "max-age=31536000",  # Cache for one year (in seconds)
-}
-
-# django-storages other settings are app environment specific
-# NOTE: in order for webfonts to correctly be served any new buckets will need to have the CORS subresource setup properly:
-# <?xml version="1.0" encoding="UTF-8"?>
-# <CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
-#     <CORSRule>
-#         <AllowedOrigin>https://xyz.com</AllowedOrigin>
-#         <AllowedMethod>GET</AllowedMethod>
-#         <MaxAgeSeconds>3000</MaxAgeSeconds>
-#         <AllowedHeader>Content-*</AllowedHeader>
-#         <AllowedHeader>Host</AllowedHeader>
-#     </CORSRule>
-#     <CORSRule>
-#         <AllowedOrigin>https://*.xyz.com</AllowedOrigin>
-#         <AllowedMethod>GET</AllowedMethod>
-#         <MaxAgeSeconds>3000</MaxAgeSeconds>
-#         <AllowedHeader>Content-*</AllowedHeader>
-#         <AllowedHeader>Host</AllowedHeader>
-#     </CORSRule>
-# </CORSConfiguration>
-
-
 # Used by the django template context processor to put the appropriate debug value in a template's context
 INTERNAL_IPS = ("127.0.0.1",)
 
-TEMPLATE_LOADERS = (
-    "django.template.loaders.filesystem.Loader",
-    "django.template.loaders.app_directories.Loader",
-)
-
-TEMPLATE_DIRS = [
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_ROOT_APP_DIR, "templates"),
-    os.path.join(PROJECT_ROOT_APP_DIR, "templates", "account"),
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": (
+            # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+            # Always use forward slashes, even on Windows.
+            # Don't forget to use absolute paths, not relative paths.
+            os.path.join(PROJECT_ROOT_APP_DIR, "templates"),
+            os.path.join(PROJECT_ROOT_APP_DIR, "templates", "account"),
+        ),
+        "OPTIONS": {
+            "loaders": (
+                "django.template.loaders.filesystem.Loader",
+                "django.template.loaders.app_directories.Loader",
+            ),
+            "context_processors": (
+                "django.contrib.auth.context_processors.auth",
+                "django.template.context_processors.debug",
+                "django.template.context_processors.i18n",
+                "django.template.context_processors.media",
+                "django.template.context_processors.request",
+                "django.template.context_processors.static",
+                "django.template.context_processors.tz",
+                "django.contrib.messages.context_processors.messages",
+            ),
+        },
+    },
 ]
-
-TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.contrib.auth.context_processors.auth",
-    "django.contrib.messages.context_processors.messages",
-    "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
-    "django.core.context_processors.media",
-    "django.core.context_processors.request",
-    "django.core.context_processors.static",
-    "django.core.context_processors.tz",
-
-    # django-allauth processors
-    "allauth.account.context_processors.account",
-    "allauth.socialaccount.context_processors.socialaccount",
-
-    # Other processors
-)
 
 MIDDLEWARE_CLASSES = (
     "django.middleware.common.CommonMiddleware",
@@ -270,10 +200,6 @@ MIDDLEWARE_CLASSES = (
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
-    # "django.contrib.flatpages.middleware.FlatpageFallbackMiddleware",
-
-    # Uncomment the next line for simple clickjacking protection:
-    # "django.middleware.clickjacking.XFrameOptionsMiddleware",
 )
 
 ROOT_URLCONF = "patt3rns.urls"
@@ -282,33 +208,22 @@ ROOT_URLCONF = "patt3rns.urls"
 WSGI_APPLICATION = "patt3rns.wsgi.application"
 
 INSTALLED_APPS = (
-    # Needs to come before django.contrib.admin according to grappelli documentation
-    # "grappelli",
     # Django apps should be installed first in general (e.g. if User model app registration needed for signals)
     "django.contrib.admin",
     "django.contrib.admindocs",
     "django.contrib.auth",
     "django.contrib.contenttypes",
-    # "django.contrib.flatpages",
     "django.contrib.humanize",
     "django.contrib.messages",
     "django.contrib.sessions",
     "django.contrib.sites",
     "django.contrib.sitemaps",
     "django.contrib.staticfiles",
-    "django.contrib.webdesign",
     "allauth",
     "allauth.account",
-    # "allauth.socialaccount",
-    # "allauth.socialaccount.providers.facebook",
-    # "allauth.socialaccount.providers.twitter",
-    # A very useful thumbnails plugin that works well with django-storages (requires Pillow)
-    # "guardian",
-    # "gunicorn",
     "patt3rns",
     "portal",
     "organization",
-    # "raven.contrib.django.raven_compat",
     "pipeline",
     "rest_framework",
 )
@@ -317,25 +232,15 @@ AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin
     "django.contrib.auth.backends.ModelBackend",
 
-    # django-guardian specific authentication needs for object permissions
-    # "guardian.backends.ObjectPermissionBackend",
-
     # `allauth` specific authentication methods, such as login by e-mail
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
-# For django-guardian support of anonymous user's object permission
-# ANONYMOUS_USER_ID = 2
-
-# region django-allauth settings
 # The user is required to enter a username when signing up. Note that the
 # user will be asked to do so even if ACCOUNT_AUTHENTICATION_METHOD is set
 # to email. Set to False when you do not wish to prompt the user to enter a
 # username.
 ACCOUNT_USERNAME_REQUIRED = False
-
-# Overrides allauth default adapter to allow specificity in the backend used to authenticate user accounts
-# ACCOUNT_ADAPTER = "identity.auth_backend.NexusAccountAdapter"
 
 # The user is required to hand over an e-mail address when signing up.
 ACCOUNT_EMAIL_REQUIRED = True
@@ -369,18 +274,6 @@ ACCOUNT_USER_DISPLAY = lambda user: user.email
 #     }
 # }
 # endregion django-allauth settings
-
-# Cache settings - we allow the developer to choose to run the supervisor process locally for memcache, redis and other dependencies
-if CACHE_CLUSTER_HOST and CACHE_CLUSTER_PORT:
-    CACHES = {
-        "default": {
-            "BACKEND": "redis_cache.cache.RedisCache",
-            "LOCATION": "{}:{}:1".format(CACHE_CLUSTER_HOST, CACHE_CLUSTER_PORT),
-            "OPTIONS": {
-                "CLIENT_CLASS": "redis_cache.client.DefaultClient",
-            }
-        }
-    }
 
 RAVEN_CONFIG = {
     "dsn": "http://public:secret@example.com/1",
@@ -451,15 +344,6 @@ LOGGING = {
             "level": "ERROR",
             "propagate": True,
         },
-        # Other loggers that may want to be handled explicitly
-        # "celery": {
-        #     "level": "INFO",
-        #     "propagate": True,
-        # },
-        # "celery.task": {
-        #     "level": "DEBUG",
-        #     "propagate": True,
-        # },
         "py.warnings": {
             "handlers": ["console"],
             "propagate": False,
@@ -474,15 +358,7 @@ LOGGING_CONFIG = None
 
 TEST = False
 
-# Used in the authorization scheme for objects
-# GUARDIAN_RAISE_403 = True
-
-# GRAPPELLI_ADMIN_TITLE = "Site Admin"
-
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-# SESSION_SAVE_EVERY_REQUEST = True
-
-# region django-pipeline settings
 
 # noinspection PyUnresolvedReferences
 PIPELINE_YUGLIFY_BINARY = os.path.join(BASE_DIR, "node_modules", ".bin", "yuglify")
@@ -562,20 +438,25 @@ PIPELINE_JS = {
 # To test bundling locally, set this in a local settings file and run collectstatic.
 # PIPELINE_ENABLED = True
 
-# endregion django-pipeline settings
-
-# Any Django checks that should be silenced
-SILENCED_SYSTEM_CHECKS = [
-    # "1_6.W001",
-    # "1_6.W002",
-]
-
 # Used to map template directory for simple indexing of static html
 DESIGNER_PLAYGROUND = "design"
 
+REDIS_CONF = {
+    "databases": {
+        "default": 1,
+        # This should be a different database number than the cache uses
+        "celery-broker": 2,
+        "staticfiles": 3,
+    },
+    "pid-file": "/usr/local/var/run/{}-redis.pid".format(REPO_NAME),
+    "sock-file": "/tmp/{}-redis.sock".format(REPO_NAME),
+    "host": "127.0.0.1",
+    "port": 6379,
+}
+
 
 def configure_email(this_module, app_environment):
-    admins = (("{} Admin".format(DOMAIN), "admin+{}@{}".format(app_environment, DOMAIN)), )
+    admins = (("{} Admin".format(DOMAIN), "admin+{}@{}".format(app_environment, DOMAIN)),)
     email_subject_prefix = "[Django ({} {})] ".format(DOMAIN, app_environment.upper())
 
     setattr(this_module, "ADMINS", admins)

@@ -1,6 +1,9 @@
+# coding=utf-8
+from __future__ import unicode_literals
 import types
 
 from django import forms
+
 from patt3rns.forms import widgets as patt3rns_widgets
 
 

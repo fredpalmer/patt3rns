@@ -1,9 +1,10 @@
+# coding=utf-8
+from __future__ import unicode_literals
 import logging
 
 from django import forms
 
 from organization.models.models import Pattern
-
 from patt3rns import forms as patt3rns_forms
 
 logger = logging.getLogger(__name__)

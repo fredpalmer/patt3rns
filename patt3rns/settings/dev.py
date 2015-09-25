@@ -1,6 +1,9 @@
+# coding=utf-8
+from __future__ import unicode_literals
 import logging
 import sys
-from .base import *
+
+from .base import *  # noqa
 
 APP_ENV = get_current_app_env(lambda _: None)
 
@@ -16,9 +19,11 @@ LOGGING["handlers"]["console"]["level"] = logging.DEBUG
 
 # Debugging settings
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 THUMBNAIL_DEBUG = True
 THUMBNAIL_CHECK_CACHE_MISS = True  # Defaults to False and allows us to simply copy images from prod when doing db restores on other environments (e.g. dev and staging)
+
+# Default to False and allow local and test settings to override
+RAISE_TEMPLATE_ERRORS = False
 
 manage_command = filter(lambda arg: arg.find("manage.py") != -1, sys.argv)
 
@@ -40,13 +45,7 @@ if TEST:
     DATABASE_ROUTERS = []
 
     # Force templates to blow up if there is an error in them
-    class InvalidString(str):
-        def __mod__(self, other):
-            from django.template.base import TemplateSyntaxError
-
-            raise TemplateSyntaxError("Undefined variable or unknown value for: %s" % other)
-
-    TEMPLATE_STRING_IF_INVALID = InvalidString("%s")
+    RAISE_TEMPLATE_ERRORS = True
 
     DATABASES = {
         "default": {
@@ -94,6 +93,35 @@ else:
     MIDDLEWARE_CLASSES = tuple(_temp_middleware)
     INSTALLED_APPS = INSTALLED_APPS + ("debug_toolbar", "django_extensions")
 
+    location = None
+    # Auto-detect redis-server running locally and allow developers to use it for caching/sessions
+    # Only configure for Redis if it's running locally (TODO: check for non-daemonized as well?)
+    pid_file = REDIS_CONF.get("pid-file")
+    if pid_file and os.path.exists(REDIS_CONF.get("pid-file")):
+        location = "{}:{}".format(
+            REDIS_CONF.get("host", "127.0.0.1"),
+            REDIS_CONF.get("port", 6739),
+        )
+    sock_file = REDIS_CONF.get("sock-file")
+    if sock_file and os.path.exists(REDIS_CONF.get("sock-file")):
+        location = "unix:/{}".format(REDIS_CONF.get("sock-file"))
+
+    if location:
+        SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+        CACHES = {
+            "default": {
+                "BACKEND": "django_redis.cache.RedisCache",
+                "LOCATION": "{}:{}".format(location, REDIS_CONF["databases"].get("default", 1)),
+                "OPTIONS": {
+                    "CLIENT_CLASS": "django_redis.client.DefaultClient",
+                },
+            }
+        }
+
+        # Null out the previous transport if set (e.g. to the database)
+        BROKER_TRANSPORT = None
+        BROKER_URL = "redis://{}/{}".format(location, REDIS_CONF["databases"].get("celery-broker"))
+
 DEBUG_TOOLBAR_PANELS = (
     "debug_toolbar.panels.versions.VersionsPanel",
     # "debug_toolbar.panels.timer.TimerPanel",
@@ -119,6 +147,10 @@ def show_toolbar_callback(request):
 
 DEBUG_TOOLBAR_CONFIG = {
     "SHOW_TOOLBAR_CALLBACK": "patt3rns.settings.dev.show_toolbar_callback",
+    # The private copy of jQuery no longer registers as an AMD module on sites that load RequireJS
+    # http://django-debug-toolbar.readthedocs.org/en/1.3.2/changes.html?highlight=amd#id1
+    # "JQUERY_URL": None,
+    "ROOT_TAG_EXTRA_ATTRS": "ng-non-bindable",
 }
 
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
@@ -126,9 +158,22 @@ DEBUG_TOOLBAR_PATCH_SETTINGS = False
 # Attempt to override dev settings with any local overrides
 try:
     # noinspection PyUnresolvedReferences
-    from .local import *
+    from .local import *  # noqa
 
 except ImportError:
     # import traceback
     # traceback.print_exc()
     pass
+
+
+class InvalidString(str):
+    def __mod__(self, other):
+        from django.template.base import TemplateSyntaxError
+
+        raise TemplateSyntaxError("Undefined variable or unknown value for: %s" % other)
+
+
+if RAISE_TEMPLATE_ERRORS:
+
+    for t in TEMPLATES:
+        t["OPTIONS"]["string_if_invalid"] = InvalidString("%s")

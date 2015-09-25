@@ -9,10 +9,10 @@
         {% include "design/models/pattern.html" %}
     </script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             YUI().use(
                     "aui-scheduler",
-                    function (Y) {
+                    function(Y) {
                         var events = [];
 
                         initCustomScheduleEventRecorder($, Y);
@@ -23,15 +23,15 @@
                         var monthView = new Y.SchedulerMonthView();
                         var weekView = new Y.SchedulerWeekView();
 
-                        eventRecorder.on("save", function (e) {
+                        eventRecorder.on("save", function(e) {
                             console.log("save", e);
                         });
 
-                        eventRecorder.on("delete", function (e) {
+                        eventRecorder.on("delete", function(e) {
                             console.log("delete", e);
                         });
 
-                        eventRecorder.on("edit", function (e) {
+                        eventRecorder.on("edit", function(e) {
                             console.log("edit", e);
                         });
 
@@ -49,17 +49,17 @@
                         $.ajax({
                             type: methodType,
                             url: url,
-                            beforeSend: function () {
+                            beforeSend: function() {
                                 console.group("%s %s", methodType, url);
                             },
-                            complete: function (jqXHR, textStatus) {
+                            complete: function(jqXHR, textStatus) {
                                 console.timeEnd(textStatus);
                                 console.groupEnd();
                             },
-                            success: function (data, textStatus, jqXHR) {
+                            success: function(data, textStatus, jqXHR) {
                                 console.log(textStatus, data);
                                 var events = [];
-                                $.each(data, function (index, val) {
+                                $.each(data, function(index, val) {
                                     console.log(index, val);
                                     var event = {
                                         content: val.participant.first_name + " " + val.participant.last_name + " " + val.action.description,
@@ -74,7 +74,7 @@
                                 scheduler.addEvents(events);
                                 scheduler.syncEventsUI();
                             },
-                            error: function (jqXHR, textStatus, errorThrown) {
+                            error: function(jqXHR, textStatus, errorThrown) {
                                 console.log(textStatus, errorThrown);
                             }
                         });

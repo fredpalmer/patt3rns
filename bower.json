@@ -1,23 +1,23 @@
 {
-  "name": "patt3rns",
-  "version": "0.0.1",
-  "authors": [
-    "Fred Palmer <fred.palmer@gmail.com>"
-  ],
-  "license": "MIT",
-  "private": true,
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "./lib/bower_components",
-    "test",
-    "tests"
-  ],
-  "dependencies": {
-    "bootstrap": "~3.2.0",
-    "jquery": "~2.1.1",
-    "jquery.cookie": "~1.4.1",
-    "moment": "~2.8.3"
-  }
+    "name": "patt3rns",
+    "version": "0.0.1",
+    "authors": [
+        "Fred Palmer <fred.palmer@gmail.com>"
+    ],
+    "license": "MIT",
+    "private": true,
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "./lib/bower_components",
+        "test",
+        "tests"
+    ],
+    "dependencies": {
+        "bootstrap": null,
+        "jquery": null,
+        "jquery.cookie": null,
+        "moment": null
+    }
 }

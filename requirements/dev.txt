@@ -3,23 +3,14 @@
 # package for developers (testing, docs, etc.), it goes in this file.
 -r base.txt
 
-# Deployment
-Fabric>=1.10.0                          # A general purpose task execution framework
-blessings>=1.5.1                        # (nose-progressive dependency)
-django-debug-toolbar>=1.2.1             # A configurable set of panels that display various debug information
-django-nose>=1.2                        # Django/nose integration framework and test runner
-ecdsa>=0.11                             # (paramiko dependency)
-mock>=1.0.1                             # A versatile object mocking library
-nose-exclude>=0.2.0                     # nose plugin to allow pattern-based excludes of tests
-nose-progressive>=1.5.1                 # nose plugin to show test progress
-nose-timer>=0.3.0                       # nose plugin to show timings for tests
-nose>=1.3.3                             # Unit testing framework
-paramiko>=1.15.1                        # ssh2 protocol for Python (Fabric dependency)
-pycrypto>=2.6.1                         # Cryptographic modules for Python (paramiko dependency)
-sqlparse>=0.1.11                        # Django debug toolbar dependency
-ssh>=1.8.0                              # SSH2 protocol library (Fabric dependency)
-wheel>=0.24.0                           # Used by pip to package a dependency for faster deployment
+Fabric                                  # A general purpose task execution framework
+blessings                               # (nose-progressive dependency)
+django-debug-toolbar                    # A configurable set of panels that display various debug information
+django-nose                             # Django/nose integration framework and test runner
 django_extensions                       # Useful helpers for Django
-
-# Documentation
-# Sphinx
+flake8
+mock                                    # A versatile object mocking library
+nose                                    # Unit testing framework
+nose-exclude                            # nose plugin to allow pattern-based excludes of tests
+nose-progressive                        # nose plugin to show test progress
+nose-timer                              # nose plugin to show timings for tests
