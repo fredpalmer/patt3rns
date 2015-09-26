@@ -79,7 +79,7 @@ if TEST:
         "django.contrib.auth.hashers.MD5PasswordHasher",
     )
 
-    # Anecdotal optimization - needs to be verified but doesn't seem to speed up things during tests
+    # Anecdotal optimizations - needs to be verified but doesn't seem to speed up things during tests
     # BROKER_BACKEND = "memory"
     # EMAIL_BACKEND = "django.core.mail.backends.dummy.EmailBackend"
     import logging
