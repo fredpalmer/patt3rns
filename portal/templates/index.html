@@ -1,8 +1,8 @@
 {% extends "design/base.html" %}
-{% load webdesign i18n compressed %}
+{% load i18n pipeline %}
 
 {% block css %}
-    {% compressed_css "portal" %}
+    {% stylesheet "portal" %}
 {% endblock css %}
 
 {% block content %}
@@ -10,5 +10,5 @@
 {% endblock content %}
 
 {% block js %}
-    {% compressed_js "portal" %}
+    {% javascript "portal" %}
 {% endblock js %}

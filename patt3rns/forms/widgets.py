@@ -3,7 +3,6 @@ from django.forms.utils import flatatt
 from django.utils.encoding import force_unicode
 from django.utils.safestring import mark_safe
 
-
 DATETIME_PICKER_TEMPLATE = u"""
 <div class="input-group datetimepicker">
     <input {attrs} />

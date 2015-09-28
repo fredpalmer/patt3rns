@@ -1,10 +1,11 @@
+# coding=utf-8
+from __future__ import unicode_literals
 import inspect
 import logging
 import os
 import uuid
 
 from django.db import models
-# from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now as datetime_now
 
 logger = logging.getLogger(__name__)

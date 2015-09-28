@@ -1,8 +1,12 @@
+# coding=utf-8
+from __future__ import unicode_literals
+
 from django.conf.urls import url
-from portal.views import PortalView
+
+from . import views
 
 urlpatterns = []
 
 urlpatterns += (
-    url(r"^(?P<view>[\w-]+)/$", PortalView.as_view(), name="portal"),
+    url(r"^(?P<view>[\w-]+)/$", views.PortalView.as_view(), name="portal"),
 )

@@ -1,3 +1,5 @@
+# coding=utf-8
+from __future__ import unicode_literals
 import logging
 import os
 
@@ -17,7 +19,6 @@ from django.views.generic.base import TemplateResponseMixin
 from django.views.generic.detail import SingleObjectTemplateResponseMixin
 
 from patt3rns.utils import sort_nicely
-
 
 logger = logging.getLogger(__name__)
 
@@ -250,6 +251,7 @@ class SingleObjectViewBase(TemplateResponseMixin, ContextMixin, View):
     This class essentially serves the same purpose as a `django.views.generic.TemplateView` except we do not want to define
     any methods to dispatch to.  That's the responsibility of any subclasses.
     """
+    fields = "__all__"
 
     def get_context_data(self, **kwargs):
         context = super(SingleObjectViewBase, self).get_context_data(**kwargs)
@@ -311,4 +313,3 @@ class ObjectDetailView(GenericSingleObjectTemplateResponseMixin, SingleObjectVie
 
 class ObjectUpdateView(GenericSingleObjectTemplateResponseMixin, SingleObjectViewBase, UpdateView):
     template_name_suffix = "-form"
-

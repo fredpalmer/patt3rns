@@ -1,7 +1,10 @@
-from django.conf.urls import url, patterns
-from organization import views
+# coding=utf-8
+from __future__ import unicode_literals
 
-urlpatterns = patterns(
-    "",
-    url(ur"$^", views.IdentityHome.as_view(), name="organization-home")
-)
+from django.conf.urls import url
+
+from . import views
+
+urlpatterns = [
+    url(ur"$^", views.IdentityHome.as_view(), name="organization-home"),
+]

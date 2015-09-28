@@ -1,8 +1,10 @@
+# coding=utf-8
+from __future__ import unicode_literals
 import logging
-from django.conf import settings
 
+from django.conf import settings
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
-from django.contrib.contenttypes.generic import GenericRelation
 
 from patt3rns import models as patt3rns_models
 
