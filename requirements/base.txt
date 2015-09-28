@@ -14,3 +14,4 @@ markdown                                # Used for API documentation generation
 pytz                                    # Python timezone library (Django recommended)
 requests                                # HTTP library for Python (allauth dependency)
 uwsgi
+supervisor                              # Supervisor is a client/server system that allows its users to control a number of processes on UNIX-like operating systems

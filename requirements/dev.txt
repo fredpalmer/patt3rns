@@ -9,6 +9,7 @@ django-debug-toolbar                    # A configurable set of panels that disp
 django-nose                             # Django/nose integration framework and test runner
 django_extensions                       # Useful helpers for Django
 flake8
+ipython
 mock                                    # A versatile object mocking library
 nose                                    # Unit testing framework
 nose-exclude                            # nose plugin to allow pattern-based excludes of tests
